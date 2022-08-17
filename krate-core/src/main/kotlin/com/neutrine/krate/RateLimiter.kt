@@ -19,7 +19,7 @@
  * under the License.
  */
 
-package com.neutrine.krate.algorithms
+package com.neutrine.krate
 
 interface RateLimiter {
     fun tryTake(): Boolean

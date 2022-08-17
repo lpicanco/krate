@@ -21,6 +21,7 @@
 
 package com.neutrine.krate.algorithms
 
+import com.neutrine.krate.RateLimiter
 import java.lang.Long.max
 import java.lang.Long.min
 import java.time.Clock
@@ -30,8 +31,8 @@ import java.time.temporal.ChronoUnit
 import java.util.concurrent.atomic.AtomicLong
 
 class TokenBucketLimiter(
-    private val capacity: Long,
-    private val refillTokenInterval: Duration,
+    val capacity: Long,
+    val refillTokenInterval: Duration,
     private val clock: Clock
 ) : RateLimiter {
     private val buckets: MutableMap<String?, Bucket> = mutableMapOf()
