@@ -21,13 +21,13 @@ internal class TokenBucketLimiterTest {
 
     @Test
     fun `should return true if there are remaining tokens`() {
-        val tokenBucket = TokenBucketLimiter(1, Duration.ofMinutes(1), clock)
+        val tokenBucket = TokenBucketLimiter(1, Duration.ofMinutes(1), clock = clock)
         assertTrue(tokenBucket.tryTake())
     }
 
     @Test
     fun `should return false if there are no remaining tokens`() {
-        val tokenBucket = TokenBucketLimiter(1, Duration.ofMinutes(1), clock)
+        val tokenBucket = TokenBucketLimiter(1, Duration.ofMinutes(1), clock = clock)
         assertTrue(tokenBucket.tryTake())
         currentTime = currentTime.plusSeconds(10)
         assertFalse(tokenBucket.tryTake())
@@ -35,7 +35,7 @@ internal class TokenBucketLimiterTest {
 
     @Test
     fun `should restore all tokens after the full refill interval`() {
-        val tokenBucket = TokenBucketLimiter(2L, Duration.ofMinutes(1), clock)
+        val tokenBucket = TokenBucketLimiter(2L, Duration.ofMinutes(1), clock = clock)
 
         assertTrue(tokenBucket.tryTake())
         assertTrue(tokenBucket.tryTake())
@@ -50,7 +50,7 @@ internal class TokenBucketLimiterTest {
 
     @Test
     fun `should restore one token after refill interval`() {
-        val tokenBucket = TokenBucketLimiter(2L, Duration.ofMinutes(1), clock)
+        val tokenBucket = TokenBucketLimiter(2L, Duration.ofMinutes(1), clock = clock)
 
         assertTrue(tokenBucket.tryTake())
         assertTrue(tokenBucket.tryTake())
@@ -64,7 +64,7 @@ internal class TokenBucketLimiterTest {
 
     @Test
     fun `should return true if taking between refill intervals`() {
-        val tokenBucket = TokenBucketLimiter(3L, Duration.ofMinutes(1), clock)
+        val tokenBucket = TokenBucketLimiter(3L, Duration.ofMinutes(1), clock = clock)
 
         assertTrue(tokenBucket.tryTake())
         currentTime = currentTime.plusSeconds(59)

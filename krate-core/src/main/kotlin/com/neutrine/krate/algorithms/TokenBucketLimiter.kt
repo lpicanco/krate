@@ -22,6 +22,8 @@
 package com.neutrine.krate.algorithms
 
 import com.neutrine.krate.RateLimiter
+import com.neutrine.krate.storage.MemoryStateStorage
+import com.neutrine.krate.storage.StateStorage
 import java.lang.Long.max
 import java.lang.Long.min
 import java.time.Clock
@@ -33,10 +35,9 @@ import java.util.concurrent.atomic.AtomicLong
 class TokenBucketLimiter(
     val capacity: Long,
     val refillTokenInterval: Duration,
+    val stateStorage: StateStorage<TokenBucketState> = MemoryStateStorage(),
     private val clock: Clock
 ) : RateLimiter {
-    private val buckets: MutableMap<String?, Bucket> = mutableMapOf()
-
     override fun tryTake(): Boolean {
         val bucket = getOrCreateBucket(key = null)
 
@@ -50,7 +51,7 @@ class TokenBucketLimiter(
         return true
     }
 
-    private fun refreshTokens(bucket: Bucket) {
+    private fun refreshTokens(bucket: TokenBucketState) {
         bucket.remainingTokens.updateAndGet { current ->
             val now = clock.instant()
 
@@ -63,20 +64,20 @@ class TokenBucketLimiter(
         }
     }
 
-    private fun takeToken(bucket: Bucket): Boolean {
+    private fun takeToken(bucket: TokenBucketState): Boolean {
         return bucket.remainingTokens.getAndUpdate { current ->
             max(0, current - 1)
         } > 0
     }
 
-    private fun getOrCreateBucket(key: String?): Bucket {
-        return buckets.computeIfAbsent(key) {
-            Bucket(AtomicLong(capacity), clock.instant())
+    private fun getOrCreateBucket(key: String?): TokenBucketState {
+        return stateStorage.getOrCreate(key) {
+            TokenBucketState(AtomicLong(capacity), clock.instant())
         }
     }
 }
 
-private data class Bucket(
+data class TokenBucketState(
     var remainingTokens: AtomicLong,
     var lastUpdated: Instant
 )
