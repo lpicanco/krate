@@ -56,7 +56,6 @@ class TokenBucketLimiter(
         while (!tryTake()) {
             delay(100)
         }
-        println("completed")
     }
 
     private fun refreshTokens(bucket: TokenBucketState) {
