@@ -23,4 +23,7 @@ package com.neutrine.krate
 
 interface RateLimiter {
     fun tryTake(): Boolean
+    fun tryTake(key: String): Boolean
+    suspend fun awaitUntilTake()
+    suspend fun awaitUntilTake(key: String)
 }

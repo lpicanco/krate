@@ -32,6 +32,7 @@ import java.time.Duration
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.concurrent.atomic.AtomicLong
+import kotlin.time.toKotlinDuration
 
 class TokenBucketLimiter(
     val capacity: Long,
@@ -41,21 +42,29 @@ class TokenBucketLimiter(
 ) : RateLimiter {
     override fun tryTake(): Boolean {
         val bucket = getOrCreateBucket(key = null)
-
-        refreshTokens(bucket)
-
-        if (bucket.remainingTokens.get() <= 0) {
-            return false
-        }
-
-        takeToken(bucket)
-        return true
+        return tryTake(bucket)
     }
 
-    suspend fun awaitUntilTake() {
+    override fun tryTake(key: String): Boolean {
+        val bucket = getOrCreateBucket(key = key)
+        return tryTake(bucket)
+    }
+
+    override suspend fun awaitUntilTake() {
         while (!tryTake()) {
-            delay(100)
+            delay(POLLING_DELAY)
         }
+    }
+
+    override suspend fun awaitUntilTake(key: String) {
+        while (!tryTake(key)) {
+            delay(POLLING_DELAY)
+        }
+    }
+
+    private fun tryTake(bucket: TokenBucketState): Boolean {
+        refreshTokens(bucket)
+        return takeToken(bucket)
     }
 
     private fun refreshTokens(bucket: TokenBucketState) {
@@ -81,6 +90,10 @@ class TokenBucketLimiter(
         return stateStorage.getOrCreate(key) {
             TokenBucketState(AtomicLong(capacity), clock.instant())
         }
+    }
+
+    companion object {
+        private val POLLING_DELAY = Duration.ofMillis(100).toKotlinDuration()
     }
 }
 

@@ -99,6 +99,21 @@ internal class TokenBucketLimiterTest {
             assertTrue(tokenBucket.tryTake())
             assertFalse(tokenBucket.tryTake())
         }
+
+        @Test
+        fun `should return true if there are remaining tokens by key`() {
+            val tokenBucket = TokenBucketLimiter(1, Duration.ofMinutes(1), clock = clock)
+            assertTrue(tokenBucket.tryTake("42"))
+            assertTrue(tokenBucket.tryTake("43"))
+        }
+
+        @Test
+        fun `should return false if there are no remaining tokens by key`() {
+            val tokenBucket = TokenBucketLimiter(1, Duration.ofMinutes(1), clock = clock)
+            assertTrue(tokenBucket.tryTake("42"))
+            currentTime = currentTime.plusSeconds(10)
+            assertFalse(tokenBucket.tryTake("42"))
+        }
     }
 
     @Nested
@@ -129,6 +144,15 @@ internal class TokenBucketLimiterTest {
                 advanceTimeBy(1000)
 
                 assertTrue(completed)
+            }
+        }
+
+        @Test
+        fun `should not await if there are remaining tokens by key`() = runTest {
+            val tokenBucket = TokenBucketLimiter(1, Duration.ofMinutes(1), clock = clock)
+            withTimeout(100) {
+                tokenBucket.awaitUntilTake("42")
+                tokenBucket.awaitUntilTake("43")
             }
         }
     }
