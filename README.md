@@ -12,14 +12,11 @@ import com.neutrine.krate.rateLimiter
 val rateLimiter = rateLimiter(maxRate = 5)
 
 // Use the rate limiter.
-rateLimiter.tryTake()
+val taken: Boolean = rateLimiter.tryTake()
 ```
 
 ### Rate of 10 per minute with a max burst of 10.
 ```kotlin
-import com.neutrine.krate.rateLimiter
-import java.time.temporal.ChronoUnit
-
 // Create a rate limiter with a rate of 10 per minute and a max burst of 10.
 val rateLimiter = rateLimiter(maxRate = 5) {
     maxBurst = 10
@@ -27,5 +24,14 @@ val rateLimiter = rateLimiter(maxRate = 5) {
 }
 
 // Use the rate limiter.
-rateLimiter.tryTake()
+val taken: Boolean = rateLimiter.tryTake()
+```
+
+### Rate of 5 per second, blocking
+```kotlin
+// Create a rate limiter with a rate of 5 per second.
+val rateLimiter = rateLimiter(maxRate = 5)
+
+// Wait until a token is available.
+rateLimiter.awaitUntilTake()
 ```

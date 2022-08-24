@@ -24,6 +24,7 @@ package com.neutrine.krate.algorithms
 import com.neutrine.krate.RateLimiter
 import com.neutrine.krate.storage.MemoryStateStorage
 import com.neutrine.krate.storage.StateStorage
+import kotlinx.coroutines.delay
 import java.lang.Long.max
 import java.lang.Long.min
 import java.time.Clock
@@ -49,6 +50,13 @@ class TokenBucketLimiter(
 
         takeToken(bucket)
         return true
+    }
+
+    suspend fun awaitUntilTake() {
+        while (!tryTake()) {
+            delay(100)
+        }
+        println("completed")
     }
 
     private fun refreshTokens(bucket: TokenBucketState) {

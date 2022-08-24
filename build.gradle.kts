@@ -19,6 +19,9 @@ subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
     dependencies {
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+
+        testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
         testImplementation("io.mockk:mockk:1.12.5")
         testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
         testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
@@ -30,5 +33,6 @@ subprojects {
 
     tasks.withType<KotlinCompile> {
         kotlinOptions.jvmTarget = JavaVersion.VERSION_11.toString()
+        kotlinOptions.freeCompilerArgs += "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
     }
 }
