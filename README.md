@@ -3,6 +3,9 @@ Rate Limit Library for Kotlin
 
 ![GitHub](https://img.shields.io/github/license/lpicanco/krate)
 ![Build Status](https://img.shields.io/github/workflow/status/lpicanco/krate/jdk11)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=lpicanco_krate&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=lpicanco_krate)
+![Sonar Coverage](https://img.shields.io/sonar/coverage/lpicanco_krate?server=https%3A%2F%2Fsonarcloud.io)
+
 
 
 ## How to use
