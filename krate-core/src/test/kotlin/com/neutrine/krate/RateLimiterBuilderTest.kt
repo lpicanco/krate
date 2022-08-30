@@ -1,6 +1,8 @@
 package com.neutrine.krate
 
 import com.neutrine.krate.algorithms.TokenBucketLimiter
+import com.neutrine.krate.storage.StateStorage
+import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -77,5 +79,18 @@ internal class RateLimiterBuilderTest {
 
         assertEquals(5, tokenBucketLimiter.capacity)
         assertEquals(Duration.ofMinutes(12), tokenBucketLimiter.refillTokenInterval)
+    }
+
+    @Test
+    fun `should return an instance of TokenBucketLimiter with custom state storage`() {
+        val customStateStorage = mockk<StateStorage>()
+        val rateLimiter = rateLimiter(maxRate = 5) {
+            stateStorage = customStateStorage
+        }
+
+        assertTrue(rateLimiter is TokenBucketLimiter)
+        val tokenBucketLimiter = rateLimiter as TokenBucketLimiter
+
+        assertEquals(customStateStorage, tokenBucketLimiter.stateStorage)
     }
 }

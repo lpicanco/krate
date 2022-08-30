@@ -28,8 +28,8 @@ import redis.clients.jedis.JedisPool
 import java.time.Instant
 
 class RedisStateStorage(
-    host: String,
-    port: Int
+    val host: String,
+    val port: Int
 ) : StateStorage {
     private val redisPool: JedisPool = JedisPool(host, port)
 

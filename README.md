@@ -9,7 +9,7 @@ Rate Limit Library for Kotlin
 import com.neutrine.krate.rateLimiter
 
 // Create a rate limiter with a rate of 5 per second.
-val rateLimiter = rateLimiter(maxRate = 5)
+val rateLimiter = rateLimiter(maxRate = 5) {}
 
 // Use the rate limiter.
 val taken: Boolean = rateLimiter.tryTake()
@@ -30,8 +30,21 @@ val taken: Boolean = rateLimiter.tryTake()
 ### Rate of 5 per second, blocking
 ```kotlin
 // Create a rate limiter with a rate of 5 per second.
-val rateLimiter = rateLimiter(maxRate = 5)
+val rateLimiter = rateLimiter(maxRate = 5) {}
 
 // Wait until a token is available.
 rateLimiter.awaitUntilTake()
+```
+
+### Rate of 5 per second using Redis as state storage
+```kotlin
+// Create a rate limiter with a rate of 5 per second and redis.
+val rateLimiter = rateLimiter(maxRate = 5) {
+    stateStorage = redisStateStorage {
+        host = "my-custom-uri.endpoint"
+    }
+}
+
+// Use the rate limiter.
+val taken: Boolean = rateLimiter.tryTake()
 ```
