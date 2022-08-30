@@ -22,9 +22,8 @@
 package com.neutrine.krate
 
 import com.neutrine.krate.algorithms.TokenBucketLimiter
-import com.neutrine.krate.algorithms.TokenBucketState
-import com.neutrine.krate.storage.MemoryStateStorage
 import com.neutrine.krate.storage.StateStorage
+import com.neutrine.krate.storage.memory.MemoryStateStorage
 import java.time.Clock
 import java.time.Duration
 import java.time.temporal.ChronoUnit
@@ -34,7 +33,7 @@ import kotlin.math.roundToLong
 class RateLimiterBuilder(private val maxRate: Long) {
     var maxBurst: Long = maxRate
     var maxRateTimeUnit: TemporalUnit = ChronoUnit.SECONDS
-    var stateStorage: StateStorage<TokenBucketState> = MemoryStateStorage()
+    var stateStorage: StateStorage = MemoryStateStorage()
     var clock: Clock = Clock.systemDefaultZone()
     fun build(): RateLimiter {
         val refillTokenIntervalInMillis = (1.0 / (maxRate.toDouble() / maxRateTimeUnit.duration.seconds)) * 1000

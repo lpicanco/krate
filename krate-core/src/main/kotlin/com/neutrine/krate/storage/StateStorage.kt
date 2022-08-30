@@ -21,8 +21,15 @@
 
 package com.neutrine.krate.storage
 
-import java.util.function.Function
+import com.neutrine.krate.algorithms.BucketState
+import java.time.Duration
+import kotlin.time.toKotlinDuration
 
-interface StateStorage<T> {
-    fun getOrCreate(key: String?, createFunction: Function<in String?, out T>): T
+interface StateStorage {
+    fun getBucketState(key: String): BucketState?
+    suspend fun compareAndSet(key: String, compareAndSetFunction: (current: BucketState?) -> BucketState)
+
+    companion object {
+        val DEFAULT_RETRY_DELAY = Duration.ofMillis(100L).toKotlinDuration()
+    }
 }

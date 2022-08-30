@@ -22,8 +22,8 @@
 package com.neutrine.krate.algorithms
 
 import com.neutrine.krate.RateLimiter
-import com.neutrine.krate.storage.MemoryStateStorage
 import com.neutrine.krate.storage.StateStorage
+import com.neutrine.krate.storage.memory.MemoryStateStorage
 import kotlinx.coroutines.delay
 import java.lang.Long.max
 import java.lang.Long.min
@@ -31,23 +31,20 @@ import java.time.Clock
 import java.time.Duration
 import java.time.Instant
 import java.time.temporal.ChronoUnit
-import java.util.concurrent.atomic.AtomicLong
 import kotlin.time.toKotlinDuration
 
 class TokenBucketLimiter(
     val capacity: Long,
     val refillTokenInterval: Duration,
-    val stateStorage: StateStorage<TokenBucketState> = MemoryStateStorage(),
-    private val clock: Clock
+    private val clock: Clock,
+    val stateStorage: StateStorage = MemoryStateStorage()
 ) : RateLimiter {
-    override fun tryTake(): Boolean {
-        val bucket = getOrCreateBucket(key = null)
-        return tryTake(bucket)
+    override suspend fun tryTake(): Boolean {
+        return tryTakeFromState(null)
     }
 
-    override fun tryTake(key: String): Boolean {
-        val bucket = getOrCreateBucket(key = key)
-        return tryTake(bucket)
+    override suspend fun tryTake(key: String): Boolean {
+        return tryTakeFromState(key)
     }
 
     override suspend fun awaitUntilTake() {
@@ -62,34 +59,26 @@ class TokenBucketLimiter(
         }
     }
 
-    private fun tryTake(bucket: TokenBucketState): Boolean {
-        refreshTokens(bucket)
-        return takeToken(bucket)
-    }
+    private suspend fun tryTakeFromState(key: String?): Boolean {
+        var hasTokens = true
+        stateStorage.compareAndSet(key.orEmpty()) { current ->
+            if (current == null) {
+                BucketState(capacity - 1, clock.instant())
+            } else {
+                val now = clock.instant()
+                val tokensToAdd = current.lastUpdated.until(now, ChronoUnit.MILLIS) / refillTokenInterval.toMillis()
+                val totalTokens = min(capacity, current.remainingTokens + tokensToAdd)
+                val lastUpdated = if (tokensToAdd > 0) now else current.lastUpdated
+                hasTokens = totalTokens > 0
 
-    private fun refreshTokens(bucket: TokenBucketState) {
-        bucket.remainingTokens.updateAndGet { current ->
-            val now = clock.instant()
-
-            val tokensToAdd = bucket.lastUpdated.until(now, ChronoUnit.MILLIS) / refillTokenInterval.toMillis()
-
-            if (tokensToAdd > 0) {
-                bucket.lastUpdated = now
+                current.copy(
+                    remainingTokens = max(0, totalTokens - 1),
+                    lastUpdated = lastUpdated
+                )
             }
-            min(capacity, current + tokensToAdd)
         }
-    }
 
-    private fun takeToken(bucket: TokenBucketState): Boolean {
-        return bucket.remainingTokens.getAndUpdate { current ->
-            max(0, current - 1)
-        } > 0
-    }
-
-    private fun getOrCreateBucket(key: String?): TokenBucketState {
-        return stateStorage.getOrCreate(key) {
-            TokenBucketState(AtomicLong(capacity), clock.instant())
-        }
+        return hasTokens
     }
 
     companion object {
@@ -97,7 +86,7 @@ class TokenBucketLimiter(
     }
 }
 
-data class TokenBucketState(
-    var remainingTokens: AtomicLong,
-    var lastUpdated: Instant
+data class BucketState(
+    val remainingTokens: Long,
+    val lastUpdated: Instant
 )

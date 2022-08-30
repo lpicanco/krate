@@ -21,54 +21,97 @@
 
 package com.neutrine.krate.storage
 
+import com.neutrine.krate.algorithms.BucketState
+import com.neutrine.krate.storage.memory.MemoryStateStorage
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.time.Clock
+import java.time.Instant
+import java.time.ZoneOffset.UTC
 
 internal class MemoryStateStorageTest {
 
-    @Test
-    fun `should create and return the state by key when not exists`() {
-        val state = SimpleState(42)
-        val storage = MemoryStateStorage<SimpleState>()
+    private val clock = Clock.fixed(Instant.parse("2022-08-14T00:44:00Z"), UTC)
+    private lateinit var storage: MemoryStateStorage
 
-        val returnedState = storage.getOrCreate("42") { state }
-
-        assertEquals(state, returnedState)
+    @BeforeEach
+    fun setup() {
+        storage = MemoryStateStorage()
     }
 
     @Test
-    fun `should return an existing state by key`() {
-        val state = SimpleState(42)
-        val storage = MemoryStateStorage<SimpleState>()
+    fun `should compare and set a new state when not exists`() = runTest {
+        val newState = BucketState(10, clock.instant())
+        storage.compareAndSet("42") { current ->
+            assertNull(current)
+            newState
+        }
 
-        storage.getOrCreate("42") { state }
-        state.value = 43
-
-        val returnedState = storage.getOrCreate("42") { SimpleState(0) }
-        assertEquals(state, returnedState)
+        assertEquals(newState, storage.getBucketState("42"))
     }
 
     @Test
-    fun `should create and return the global state when not exists`() {
-        val state = SimpleState(42)
-        val storage = MemoryStateStorage<SimpleState>()
+    fun `should compare and set a new state when not exists concurrently`() = runTest {
+        val key = "42"
+        val newState = BucketState(10, clock.instant())
+        val concurrentState = BucketState(8, clock.instant().plusSeconds(10))
 
-        val returnedState = storage.getOrCreate(null) { state }
+        storage.compareAndSet(key) { current ->
+            runBlocking {
+                storage.compareAndSet(key) { concurrentState }
+            }
+            current?.copy(current.remainingTokens - 1) ?: newState
+        }
 
-        assertEquals(state, returnedState)
+        assertEquals(7, storage.getBucketState(key)?.remainingTokens)
     }
 
     @Test
-    fun `should return an existing global state`() {
-        val state = SimpleState(42)
-        val storage = MemoryStateStorage<SimpleState>()
+    fun `should compare and set a new state when exists`() = runTest {
+        val currentState = BucketState(10, clock.instant())
+        val newState = BucketState(9, clock.instant().plusSeconds(10))
+        storage.compareAndSet("42") { currentState }
 
-        storage.getOrCreate(null) { state }
-        state.value = 43
+        storage.compareAndSet("42") { current ->
+            assertEquals(currentState, current)
+            newState
+        }
 
-        val returnedState = storage.getOrCreate(null) { SimpleState(0) }
-        assertEquals(state, returnedState)
+        assertEquals(newState, storage.getBucketState("42"))
     }
 
-    private data class SimpleState(var value: Int)
+    @Test
+    fun `should compare and set a new state concurrently`() = runTest {
+        val key = "42"
+        val currentState = BucketState(10, clock.instant())
+        val concurrentState = BucketState(8, clock.instant().plusSeconds(10))
+        storage.compareAndSet(key) { currentState }
+
+        storage.compareAndSet(key) { current ->
+            runBlocking {
+                storage.compareAndSet(key) { concurrentState }
+            }
+
+            current!!.copy(current.remainingTokens - 1)
+        }
+
+        assertEquals(7, storage.getBucketState(key)?.remainingTokens)
+    }
+
+    @Test
+    fun `should return the current state`() = runTest {
+        val currentState = BucketState(10, clock.instant())
+        storage.compareAndSet("42") { currentState }
+
+        assertEquals(currentState, storage.getBucketState("42"))
+    }
+
+    @Test
+    fun `should return null when the state not exists`() {
+        assertNull(storage.getBucketState("404"))
+    }
 }
