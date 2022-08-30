@@ -43,6 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+      - uses: actions/checkout@v3
       - name: Analyze with SonarCloud         
 
         # You can pin the exact commit or the version.
