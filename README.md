@@ -1,5 +1,8 @@
-# krate
+# Krate
 Rate Limit Library for Kotlin
+
+![GitHub](https://img.shields.io/github/license/lpicanco/krate)
+![Build Status](https://img.shields.io/github/workflow/status/lpicanco/krate/jdk11)
 
 
 ## How to use
