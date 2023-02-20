@@ -49,8 +49,6 @@ class RedisStateStorage(
 
             transaction.hset(computedKey, newState.toMap())
 
-            println("setting: $newState")
-
             if (transaction.exec() == null) {
                 delay(StateStorage.DEFAULT_RETRY_DELAY)
                 return compareAndSet(key, compareAndSetFunction)

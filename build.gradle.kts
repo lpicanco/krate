@@ -52,6 +52,11 @@ subprojects {
         finalizedBy(tasks.jacocoTestReport)
     }
 
+    configure<JavaPluginExtension> {
+        withSourcesJar()
+        withJavadocJar()
+    }
+
     tasks.jacocoTestReport {
         reports {
             xml.required.set(true)
