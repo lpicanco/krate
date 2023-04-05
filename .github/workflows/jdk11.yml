@@ -38,4 +38,3 @@ jobs:
           -Dsonar.scm.provider=git
           -Dsonar.junit.reportPaths=build/test-results/test
           -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml
-          -Dsonar.sources=src/main/kotlin
