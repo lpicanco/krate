@@ -24,8 +24,6 @@ sonarqube {
         property("sonar.projectKey", "lpicanco_krate")
         property("sonar.organization", "lpicanco")
         property("sonar.host.url", "https://sonarcloud.io")
-        property("sonar.junit.reportPaths", "build/test-results/test")
-        property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
     }
 }
 
@@ -37,6 +35,13 @@ subprojects {
     apply(plugin = "jacoco")
     apply(plugin = "maven-publish")
     apply(plugin = "signing")
+
+    sonarqube {
+        properties {
+            property("sonar.junit.reportPaths", "build/test-results/test")
+            property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
+        }
+    }
 
     dependencies {
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
