@@ -38,7 +38,6 @@ subprojects {
 
     sonarqube {
         properties {
-            // property("sonar.sources", "src")
             property("sonar.junit.reportPaths", "build/test-results/test")
             property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
         }
