@@ -38,6 +38,13 @@ subprojects {
     apply(plugin = "maven-publish")
     apply(plugin = "signing")
 
+    sonarqube {
+        properties {
+            property("sonar.sources", "src")
+            property("sonar.junit.reportPaths", "build/test-results/test")
+        }
+    }
+
     dependencies {
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 
