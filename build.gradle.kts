@@ -19,6 +19,16 @@ allprojects {
     }
 }
 
+sonarqube {
+    properties {
+        property("sonar.projectKey", "lpicanco_krate")
+        property("sonar.organization", "lpicanco")
+        property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.junit.reportPaths", "build/test-results/test")
+        property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
+    }
+}
+
 val isReleaseVersion = !version.toString().endsWith("SNAPSHOT")
 
 subprojects {
