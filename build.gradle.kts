@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.8.0"
     id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
-    id("org.sonarqube") version "3.4.0.2513"
+    id("org.sonarqube") version "3.5.0.2730"
     jacoco
     id("maven-publish")
     id("signing")
@@ -16,16 +16,6 @@ allprojects {
 
     repositories {
         mavenCentral()
-    }
-}
-
-sonarqube {
-    properties {
-        property("sonar.projectKey", "lpicanco_krate")
-        property("sonar.organization", "lpicanco")
-        property("sonar.host.url", "https://sonarcloud.io")
-        property("sonar.junit.reportPaths", "build/test-results/test")
-        property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
     }
 }
 
