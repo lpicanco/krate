@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022, the original author or authors.
+ * Copyright (c) 2022-2023, the original author or authors.
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -21,9 +21,32 @@
 
 package com.neutrine.krate
 
+/**
+ * Interface for rate limiters implementations.
+ * A rate limiter is a component that allows to limit the rate of some actions
+ */
 interface RateLimiter {
+    /**
+     * Try to take a token from the rate limiter.
+     * @return true if the rate limit is not exceeded, false otherwise
+     */
     suspend fun tryTake(): Boolean
+
+    /**
+     * Try to take a token for the given [key] from the rate limiter.
+     * @param key the key to use to take the token
+     * @return true if the rate limit is not exceeded, false otherwise
+     */
     suspend fun tryTake(key: String): Boolean
+
+    /**
+     * Wait until a token is available.
+     */
     suspend fun awaitUntilTake()
+
+    /**
+     * Wait until a token for the given [key] is available.
+     * @param key the key to use to take the token
+     */
     suspend fun awaitUntilTake(key: String)
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022, the original author or authors.
+ * Copyright (c) 2022-2023, the original author or authors.
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -28,6 +28,10 @@ import kotlinx.coroutines.delay
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicReference
 
+/**
+ * Simple in-memory implementation of [StateStorage].
+ * This implementation is thread-safe and uses [ConcurrentHashMap] to store the state.
+ */
 class SimpleMemoryStateStorage : StateStorage {
 
     internal val state: ConcurrentHashMap<String, AtomicReference<BucketState>> = ConcurrentHashMap()

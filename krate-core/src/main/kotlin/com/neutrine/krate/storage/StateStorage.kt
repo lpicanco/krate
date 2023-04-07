@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022, the original author or authors.
+ * Copyright (c) 2022-2023, the original author or authors.
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -25,11 +25,29 @@ import com.neutrine.krate.algorithms.BucketState
 import java.time.Duration
 import kotlin.time.toKotlinDuration
 
+/**
+ * Interface for state storage implementations.
+ * A state storage is a component that allows to store the state of a rate limiter.
+ */
 interface StateStorage {
+
+    /**
+     * Get the state of the bucket for the given [key].
+     * @param key the key to use to get the state
+     * @return the state of the bucket for the given [key] or null if the bucket does not exist
+     */
     fun getBucketState(key: String): BucketState?
+
+    /**
+     * Set the state of the bucket for the given [key].
+     * @param key the key to use to set the state
+     * @param compareAndSetFunction a Compare-And-Set function that takes the current state of the bucket and returns the new state
+     */
     suspend fun compareAndSet(key: String, compareAndSetFunction: (current: BucketState?) -> BucketState)
 
     companion object {
+
+        // Default expiration check interval
         val DEFAULT_RETRY_DELAY = Duration.ofMillis(100L).toKotlinDuration()
     }
 }

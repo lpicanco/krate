@@ -37,17 +37,17 @@ import java.time.ZoneOffset
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
 
-class MemoryStateStorageBuilderTest {
+class SimpleMemoryStateStorageBuilderTest {
 
     @Test
     fun `should return an instance of SimpleMemoryStateStorage`() {
-        val simpleMemoryStateStorage = memoryStateStorage()
+        val simpleMemoryStateStorage = simpleMemoryStateStorage()
         assertTrue(simpleMemoryStateStorage is SimpleMemoryStateStorage)
     }
 
     @Test
     fun `should return an instance of SimpleMemoryStateStorageWithEviction with default values`() {
-        val simpleMemoryStateStorage = memoryStateStorageWithEviction()
+        val simpleMemoryStateStorage = simpleMemoryStateStorageWithEviction()
         assertTrue(simpleMemoryStateStorage is SimpleMemoryStateStorageWithEviction)
     }
 
@@ -59,12 +59,12 @@ class MemoryStateStorageBuilderTest {
         val customStateStorage = spyk<SimpleMemoryStateStorage>()
         val testScope = TestScope()
 
-        val stateStorage = memoryStateStorageWithEviction {
+        val stateStorage = simpleMemoryStateStorageWithEviction {
             clock = fixedClock
             ttlAfterLastAccess = ttl
             expirationCheckInterval = checkInterval
             stateStorage = customStateStorage
-            scope = testScope
+            coroutineScope = testScope
         }
 
         assertTrue(stateStorage is SimpleMemoryStateStorageWithEviction)

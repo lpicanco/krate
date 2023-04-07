@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022, the original author or authors.
+ * Copyright (c) 2022-2023, the original author or authors.
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -21,13 +21,26 @@
 
 package com.neutrine.krate.storage.redis
 
+/**
+ * A builder for [RedisStateStorage] instances.
+ */
 class RedisStateStorageBuilder {
+    /**
+     * The host of the Redis server.
+     */
     var host: String = "localhost"
+
+    /**
+     * The port of the Redis server.
+     */
     var port: Int = 6379
 
     fun build() = RedisStateStorage(host, port)
 }
 
+/**
+ * Creates a [RedisStateStorage] instance.
+ */
 fun redisStateStorage(init: RedisStateStorageBuilder.() -> Unit): RedisStateStorage {
     return RedisStateStorageBuilder().apply(init).build()
 }
