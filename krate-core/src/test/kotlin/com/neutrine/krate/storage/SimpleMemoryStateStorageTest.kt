@@ -22,7 +22,7 @@
 package com.neutrine.krate.storage
 
 import com.neutrine.krate.algorithms.BucketState
-import com.neutrine.krate.storage.memory.MemoryStateStorage
+import com.neutrine.krate.storage.memory.SimpleMemoryStateStorage
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -33,14 +33,14 @@ import java.time.Clock
 import java.time.Instant
 import java.time.ZoneOffset.UTC
 
-internal class MemoryStateStorageTest {
+internal class SimpleMemoryStateStorageTest {
 
     private val clock = Clock.fixed(Instant.parse("2022-08-14T00:44:00Z"), UTC)
-    private lateinit var storage: MemoryStateStorage
+    private lateinit var storage: SimpleMemoryStateStorage
 
     @BeforeEach
     fun setup() {
-        storage = MemoryStateStorage()
+        storage = SimpleMemoryStateStorage()
     }
 
     @Test
