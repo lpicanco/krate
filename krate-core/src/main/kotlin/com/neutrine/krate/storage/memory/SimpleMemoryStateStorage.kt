@@ -28,8 +28,9 @@ import kotlinx.coroutines.delay
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicReference
 
-class MemoryStateStorage : StateStorage {
-    private val state: ConcurrentHashMap<String, AtomicReference<BucketState>> = ConcurrentHashMap()
+class SimpleMemoryStateStorage : StateStorage {
+
+    internal val state: ConcurrentHashMap<String, AtomicReference<BucketState>> = ConcurrentHashMap()
 
     override fun getBucketState(key: String): BucketState? {
         return state[key]?.get()
