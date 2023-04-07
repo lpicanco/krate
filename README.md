@@ -15,6 +15,26 @@ Krate is a rate limiter library for Kotlin.
 - Redis support
 - Unused keys eviction support 
 
+## Installation
+### Gradle
+```groovy
+implementation 'io.github.lpicanco:krate-core:${krateVersion}'
+```
+
+### Gradle Kotlin DSL
+```kotlin
+implementation("io.github.lpicanco:krate-core:${krateVersion}")
+```
+
+### Maven
+```xml
+<dependency>
+  <groupId>io.github.lpicanco</groupId>
+  <artifactId>krate-core</artifactId>
+  <version>${krateVersion}</version>
+</dependency>
+```
+
 ## How to use
 
 ### Rate of 5 per second
