@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022, the original author or authors.
+ * Copyright (c) 2022-2023, the original author or authors.
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -33,6 +33,13 @@ import java.time.Instant
 import java.time.temporal.ChronoUnit
 import kotlin.time.Duration.Companion.milliseconds
 
+/**
+ * A token bucket rate limiter implementation.
+ * @param capacity the maximum number of tokens that can be stored in the bucket
+ * @param refillTokenInterval the interval at which tokens are added to the bucket
+ * @param clock the clock to use to get the current time
+ * @param stateStorage the state storage to use to store the bucket state
+ */
 class TokenBucketLimiter(
     val capacity: Long,
     val refillTokenInterval: Duration,
@@ -86,6 +93,11 @@ class TokenBucketLimiter(
     }
 }
 
+/**
+ * The state of a token bucket.
+ * @param remainingTokens the number of remaining tokens in the bucket
+ * @param lastUpdated the last time the bucket was updated
+ */
 data class BucketState(
     val remainingTokens: Long,
     val lastUpdated: Instant

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022, the original author or authors.
+ * Copyright (c) 2022-2023, the original author or authors.
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -23,18 +23,38 @@ package com.neutrine.krate
 
 import com.neutrine.krate.algorithms.TokenBucketLimiter
 import com.neutrine.krate.storage.StateStorage
-import com.neutrine.krate.storage.memory.memoryStateStorage
+import com.neutrine.krate.storage.memory.simpleMemoryStateStorage
 import java.time.Clock
 import java.time.Duration
 import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalUnit
 import kotlin.math.roundToLong
 
+/**
+ * A builder for [RateLimiter] instances.
+ * @param maxRate the maximum rate at which tokens can be consumed
+ */
 class RateLimiterBuilder(private val maxRate: Long) {
+
+    /**
+     * The maximum number of tokens that can be stored in the bucket. Defaults to [maxRate].
+     */
     var maxBurst: Long = maxRate
+
+    /**
+     * The [TemporalUnit] of the [maxRate]. Defaults to [ChronoUnit.SECONDS].
+     */
     var maxRateTimeUnit: TemporalUnit = ChronoUnit.SECONDS
+
+    /**
+     * The clock to use to get the current time. Defaults to the system clock.
+     */
     var clock: Clock = Clock.systemDefaultZone()
-    var stateStorage: StateStorage = memoryStateStorage()
+
+    /**
+     * The state storage to use to store the bucket state.
+     */
+    var stateStorage: StateStorage = simpleMemoryStateStorage()
 
     fun build(): RateLimiter {
         val refillTokenIntervalInMillis = (1.0 / (maxRate.toDouble() / maxRateTimeUnit.duration.seconds)) * 1000
@@ -48,6 +68,11 @@ class RateLimiterBuilder(private val maxRate: Long) {
     }
 }
 
+/**
+ * Creates a [RateLimiter] instance with the specified [maxRate].
+ * @param maxRate the maximum rate at which tokens can be consumed
+ * @param init the builder configuration
+ */
 fun rateLimiter(maxRate: Long, init: RateLimiterBuilder.() -> Unit): RateLimiter {
     return RateLimiterBuilder(maxRate).apply(init).build()
 }

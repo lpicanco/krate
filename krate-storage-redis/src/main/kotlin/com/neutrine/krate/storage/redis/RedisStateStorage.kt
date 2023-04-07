@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022, the original author or authors.
+ * Copyright (c) 2022-2023, the original author or authors.
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -27,6 +27,12 @@ import kotlinx.coroutines.delay
 import redis.clients.jedis.JedisPool
 import java.time.Instant
 
+/**
+ * A [StateStorage] implementation using Redis.
+ *
+ * @param host The Redis host.
+ * @param port The Redis port.
+ */
 class RedisStateStorage(
     val host: String,
     val port: Int

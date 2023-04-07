@@ -31,16 +31,24 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
 
+/**
+ * A simple in-memory state storage implementation that expires keys after a given time-to-live.
+ * @param clock the clock to use to get the current time
+ * @param stateStorage the state storage to use to store the state
+ * @param ttlAfterLastAccess the time-to-live after the last access
+ * @param expirationCheckInterval the interval at which to check for expired keys
+ * @param coroutineScope the [CoroutineScope] to use to run the expiration check
+ */
 class SimpleMemoryStateStorageWithEviction(
     private val clock: Clock,
     private val stateStorage: SimpleMemoryStateStorage = SimpleMemoryStateStorage(),
     private val ttlAfterLastAccess: Duration = 2.hours,
     expirationCheckInterval: Duration = 10.minutes,
-    scope: CoroutineScope = CoroutineScope(Dispatchers.Default)
+    coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default)
 ) : StateStorage by stateStorage {
 
     init {
-        scope.launch {
+        coroutineScope.launch {
             while (true) {
                 delay(expirationCheckInterval)
                 expireKeys()

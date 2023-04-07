@@ -29,24 +29,58 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
 
-class MemoryStateStorageBuilder {
+/**
+ * A builder for [SimpleMemoryStateStorage] instances.
+ */
+class SimpleMemoryStateStorageBuilder {
     fun build() = SimpleMemoryStateStorage()
 }
 
-class MemoryStateStorageWithEvictionBuilder() {
+/**
+ * A builder for [SimpleMemoryStateStorageWithEviction] instances.
+ */
+class SimpleMemoryStateStorageWithEvictionBuilder {
+
+    /**
+     * The time-to-live after the last access.
+     */
     var ttlAfterLastAccess: Duration = 2.hours
+
+    /**
+     * The interval at which to check for expired keys.
+     */
     var expirationCheckInterval: Duration = 10.minutes
+
+    /**
+     * The clock to use to get the current time.
+     */
     var clock: Clock = Clock.systemDefaultZone()
+
+    /**
+     * The state storage to use to store the state.
+     */
     var stateStorage: SimpleMemoryStateStorage = SimpleMemoryStateStorage()
-    var scope: CoroutineScope = CoroutineScope(Dispatchers.Default)
 
-    fun build() = SimpleMemoryStateStorageWithEviction(clock, stateStorage, ttlAfterLastAccess, expirationCheckInterval, scope)
+    /**
+     * The [CoroutineScope] to use to run the expiration check.
+     */
+    var coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default)
+
+    fun build() = SimpleMemoryStateStorageWithEviction(clock, stateStorage, ttlAfterLastAccess, expirationCheckInterval, coroutineScope)
 }
 
-fun memoryStateStorage(init: MemoryStateStorageBuilder.() -> Unit = {}): StateStorage {
-    return MemoryStateStorageBuilder().apply(init).build()
+/**
+ * Creates a [SimpleMemoryStateStorage] instance.
+ * @param init the builder configuration
+ */
+fun simpleMemoryStateStorage(init: SimpleMemoryStateStorageBuilder.() -> Unit = {}): StateStorage {
+    return SimpleMemoryStateStorageBuilder().apply(init).build()
 }
 
-fun memoryStateStorageWithEviction(init: MemoryStateStorageWithEvictionBuilder.() -> Unit = {}): SimpleMemoryStateStorageWithEviction {
-    return MemoryStateStorageWithEvictionBuilder().apply(init).build()
+/**
+ * Creates a [SimpleMemoryStateStorageWithEviction] instance.
+ * @param init the builder configuration
+ */
+fun simpleMemoryStateStorageWithEviction(init: SimpleMemoryStateStorageWithEvictionBuilder.() -> Unit = {}): SimpleMemoryStateStorageWithEviction {
+    return SimpleMemoryStateStorageWithEvictionBuilder().apply(init).build()
 }
