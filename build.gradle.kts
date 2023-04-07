@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.8.0"
+    kotlin("jvm") version "1.8.20"
     id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
     id("org.sonarqube") version "3.5.0.2730"
     jacoco
@@ -12,7 +12,7 @@ plugins {
 
 allprojects {
     group = "com.neutrine.krate"
-    version = "1.0"
+    version = "1.0.1"
 
     repositories {
         mavenCentral()
@@ -45,11 +45,10 @@ subprojects {
 
     dependencies {
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-
         testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
-        testImplementation("io.mockk:mockk:1.12.5")
-        testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
-        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
+        testImplementation("io.mockk:mockk:1.13.4")
+        testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
+        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
     }
 
     tasks.withType<Test> {
