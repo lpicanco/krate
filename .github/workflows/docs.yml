@@ -25,7 +25,10 @@ jobs:
           pip install mkdocs mkdocs-material
 
       - name: Build MkDocs site
-        run: mkdocs build
+        run: |
+          mkdir docs
+          cp README.md docs
+          mkdocs build
 
       - name: Set up JDK 11
         uses: actions/setup-java@v3
@@ -40,7 +43,7 @@ jobs:
 
       - name: Copy Dokka documentation to MkDocs site
         run: |
-          mkdir -p site/dokka
+          mkdir -p site/api
           cp -r build/dokkaHtmlMultiModule/* site/api/       
 
       - name: Deploy to GitHub Pages
