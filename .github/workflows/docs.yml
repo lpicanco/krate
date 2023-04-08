@@ -13,6 +13,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install MkDocs and Material theme
+        run: |
+          python -m pip install --upgrade pip
+          pip install mkdocs mkdocs-material
+
+      - name: Build MkDocs site
+        run: |
+          mkdir docs
+          cp README.md docs
+          mkdocs build
+
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
@@ -24,8 +41,13 @@ jobs:
         with:
           arguments: --no-daemon dokkaHtmlMultiModule
 
+      - name: Copy Dokka documentation to MkDocs site
+        run: |
+          mkdir -p site/api
+          cp -r build/dokkaHtmlMultiModule/* site/api/       
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: build/dokkaHtmlMultiModule
+          publish_dir: site
