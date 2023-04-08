@@ -1,0 +1,1 @@
+sourceset_dependencies = '{":krate-storage-redis:dokkaHtmlPartial/main":[],":krate-core:dokkaHtmlPartial/main":[]}'

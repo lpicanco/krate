@@ -1,0 +1,10 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+
+module:krate-core
+com.neutrine.krate
+com.neutrine.krate.algorithms
+com.neutrine.krate.storage
+com.neutrine.krate.storage.memory
+module:krate-storage-redis
+com.neutrine.krate.storage.redis
