@@ -72,6 +72,19 @@ class RateLimiterBuilder(private val maxRate: Long) {
  * Creates a [RateLimiter] instance with the specified [maxRate].
  * @param maxRate the maximum rate at which tokens can be consumed
  * @param init the builder configuration
+ *
+ * To create a rate limiter that allows 5 requests per second:
+ * ```kotlin
+ * val rateLimiter = rateLimiter(maxRate = 5)
+ * ```
+ *
+ * To create a rate limiter that allows 5 requests per second, expiring keys unused for 2 hours:
+ * ```kotlin
+ * val rateLimiter = rateLimiter(maxRate = 5) {
+ *  stateStorage = simpleMemoryStateStorageWithEviction {
+ *      ttlAfterLastAccess = 2.hours
+ *  }
+ * }
  */
 fun rateLimiter(maxRate: Long, init: RateLimiterBuilder.() -> Unit = {}): RateLimiter {
     return RateLimiterBuilder(maxRate).apply(init).build()

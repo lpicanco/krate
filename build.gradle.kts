@@ -8,6 +8,7 @@ plugins {
     id("maven-publish")
     id("signing")
     id("io.github.gradle-nexus.publish-plugin") version "1.0.0"
+    id("org.jetbrains.dokka") version "1.8.10"
 }
 
 allprojects {
@@ -27,6 +28,10 @@ sonarqube {
     }
 }
 
+tasks.dokkaHtmlMultiModule {
+    outputDirectory.set(buildDir.resolve("dokkaHtmlMultiModule"))
+}
+
 val isReleaseVersion = !version.toString().endsWith("SNAPSHOT")
 
 subprojects {
@@ -35,6 +40,7 @@ subprojects {
     apply(plugin = "jacoco")
     apply(plugin = "maven-publish")
     apply(plugin = "signing")
+    apply(plugin = "org.jetbrains.dokka")
 
     sonarqube {
         properties {
