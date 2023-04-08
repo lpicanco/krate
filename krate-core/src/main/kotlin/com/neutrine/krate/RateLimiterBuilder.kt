@@ -73,6 +73,6 @@ class RateLimiterBuilder(private val maxRate: Long) {
  * @param maxRate the maximum rate at which tokens can be consumed
  * @param init the builder configuration
  */
-fun rateLimiter(maxRate: Long, init: RateLimiterBuilder.() -> Unit): RateLimiter {
+fun rateLimiter(maxRate: Long, init: RateLimiterBuilder.() -> Unit = {}): RateLimiter {
     return RateLimiterBuilder(maxRate).apply(init).build()
 }
