@@ -10,10 +10,10 @@ Krate is a rate limiter library for Kotlin.
 
 
 ## Features
-- Token Bucket algorithm
-- Burst support
-- Redis support
-- Unused keys eviction support 
+1. Token Bucket Algorithm: Krate uses the token bucket algorithm, a widely-used technique for rate limiting, to ensure efficient and fair resource allocation.
+2. Burst Support: Krate allows for bursty request patterns, letting clients make a certain number of requests in a short time before being rate-limited.
+3. Redis Support: Krate offers support for Redis as a backend for storing rate limit information, enabling distributed rate limiting across multiple instances of your application.
+4. Keys eviction support: Krate automatically evicts unused keys, optimizing memory usage and ensuring optimal performance.
 
 ## Installation
 ### Gradle
