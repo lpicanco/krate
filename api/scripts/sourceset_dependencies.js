@@ -1,1 +1,1 @@
-sourceset_dependencies = '{":krate-storage-redis:dokkaHtmlPartial/main":[],":krate-core:dokkaHtmlPartial/main":[]}'
+sourceset_dependencies = '{":krate-storage-redis:dokkaHtmlPartial/main":[],":krate-core:dokkaHtmlPartial/main":[],":krate-storage-memory-caffeine:dokkaHtmlPartial/main":[]}'

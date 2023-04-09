@@ -59,62 +59,92 @@
     <div class="tabs-section-body">
       <div data-togglable="TYPE">
         <h2 class="">Types</h2>
-        <div class="table"><a data-name="-990477223%2FClasslikes%2F-554770553" anchor-label="SimpleMemoryStateStorage" id="-990477223%2FClasslikes%2F-554770553" data-filterable-set=":krate-core:dokkaHtmlPartial/main"></a>
+        <div class="table"><a data-name="-798024671%2FClasslikes%2F-554770553" anchor-label="BucketStateMap" id="-798024671%2FClasslikes%2F-554770553" data-filterable-set=":krate-core:dokkaHtmlPartial/main"></a>
           <div class="table-row" data-filterable-current=":krate-core:dokkaHtmlPartial/main" data-filterable-set=":krate-core:dokkaHtmlPartial/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-simple-memory-state-storage/index.html"><span>Simple</span><wbr><span>Memory</span><wbr><span>State</span><wbr><span><span>Storage</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-990477223%2FClasslikes%2F-554770553"></span>
+                  <div><a href="-bucket-state-map/index.html"><span>Bucket</span><wbr><span>State</span><wbr><span><span>Map</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-798024671%2FClasslikes%2F-554770553"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":krate-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-simple-memory-state-storage/index.html">SimpleMemoryStateStorage</a> : <a href="../com.neutrine.krate.storage/-state-storage/index.html">StateStorage</a></div><div class="brief "><p class="paragraph">Simple in-memory implementation of <a href="../com.neutrine.krate.storage/-state-storage/index.html">StateStorage</a>. This implementation is thread-safe and uses <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentHashMap.html">ConcurrentHashMap</a> to store the state.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":krate-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">interface </span><a href="-bucket-state-map/index.html">BucketStateMap</a></div><div class="brief "><p class="paragraph">Interface the provides a map implementation to store the state of the rate limiter.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="-345918482%2FClasslikes%2F-554770553" anchor-label="SimpleMemoryStateStorageBuilder" id="-345918482%2FClasslikes%2F-554770553" data-filterable-set=":krate-core:dokkaHtmlPartial/main"></a>
+<a data-name="1517873451%2FClasslikes%2F-554770553" anchor-label="MemoryStateStorage" id="1517873451%2FClasslikes%2F-554770553" data-filterable-set=":krate-core:dokkaHtmlPartial/main"></a>
           <div class="table-row" data-filterable-current=":krate-core:dokkaHtmlPartial/main" data-filterable-set=":krate-core:dokkaHtmlPartial/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-simple-memory-state-storage-builder/index.html"><span>Simple</span><wbr><span>Memory</span><wbr><span>State</span><wbr><span>Storage</span><wbr><span><span>Builder</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-345918482%2FClasslikes%2F-554770553"></span>
+                  <div><a href="-memory-state-storage/index.html"><span>Memory</span><wbr><span>State</span><wbr><span><span>Storage</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1517873451%2FClasslikes%2F-554770553"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":krate-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-simple-memory-state-storage-builder/index.html">SimpleMemoryStateStorageBuilder</a></div><div class="brief "><p class="paragraph">A builder for <a href="-simple-memory-state-storage/index.html">SimpleMemoryStateStorage</a> instances.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":krate-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-memory-state-storage/index.html">MemoryStateStorage</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">bucketStateMap<span class="token operator">: </span><a href="-bucket-state-map/index.html">BucketStateMap</a><span class="token operator"> = </span>SimpleBucketStateMap()</span></span><span class="token punctuation">)</span> : <a href="../com.neutrine.krate.storage/-state-storage/index.html">StateStorage</a></div><div class="brief "><p class="paragraph">Implementation of <a href="../com.neutrine.krate.storage/-state-storage/index.html">StateStorage</a> that stores the state in memory.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="-657767980%2FClasslikes%2F-554770553" anchor-label="SimpleMemoryStateStorageWithEviction" id="-657767980%2FClasslikes%2F-554770553" data-filterable-set=":krate-core:dokkaHtmlPartial/main"></a>
+<a data-name="-1411539236%2FClasslikes%2F-554770553" anchor-label="MemoryStateStorageBuilder" id="-1411539236%2FClasslikes%2F-554770553" data-filterable-set=":krate-core:dokkaHtmlPartial/main"></a>
           <div class="table-row" data-filterable-current=":krate-core:dokkaHtmlPartial/main" data-filterable-set=":krate-core:dokkaHtmlPartial/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-simple-memory-state-storage-with-eviction/index.html"><span>Simple</span><wbr><span>Memory</span><wbr><span>State</span><wbr><span>Storage</span><wbr><span>With</span><wbr><span><span>Eviction</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-657767980%2FClasslikes%2F-554770553"></span>
+                  <div><a href="-memory-state-storage-builder/index.html"><span>Memory</span><wbr><span>State</span><wbr><span>Storage</span><wbr><span><span>Builder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1411539236%2FClasslikes%2F-554770553"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":krate-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-simple-memory-state-storage-with-eviction/index.html">SimpleMemoryStateStorageWithEviction</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">clock<span class="token operator">: </span><a href="https://docs.oracle.com/javase/8/docs/api/java/time/Clock.html">Clock</a><span class="token punctuation">, </span></span><span class="parameter ">stateStorage<span class="token operator">: </span><a href="-simple-memory-state-storage/index.html">SimpleMemoryStateStorage</a><span class="token operator"> = </span>SimpleMemoryStateStorage()<span class="token punctuation">, </span></span><span class="parameter ">ttlAfterLastAccess<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/-duration/index.html">Duration</a><span class="token operator"> = </span>2.hours<span class="token punctuation">, </span></span><span class="parameter ">expirationCheckInterval<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/-duration/index.html">Duration</a><span class="token operator"> = </span>10.minutes<span class="token punctuation">, </span></span><span class="parameter ">coroutineScope<span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines/CoroutineScope///PointingToDeclaration/">CoroutineScope</span><span class="token operator"> = </span>CoroutineScope(Dispatchers.Default)</span></span><span class="token punctuation">)</span> : <a href="../com.neutrine.krate.storage/-state-storage/index.html">StateStorage</a></div><div class="brief "><p class="paragraph">A simple in-memory state storage implementation that expires keys after a given time-to-live.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":krate-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-memory-state-storage-builder/index.html">MemoryStateStorageBuilder</a></div><div class="brief "><p class="paragraph">A builder for <a href="-memory-state-storage/index.html">MemoryStateStorage</a> instances.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="-933304813%2FClasslikes%2F-554770553" anchor-label="SimpleMemoryStateStorageWithEvictionBuilder" id="-933304813%2FClasslikes%2F-554770553" data-filterable-set=":krate-core:dokkaHtmlPartial/main"></a>
+<a data-name="706468865%2FClasslikes%2F-554770553" anchor-label="MemoryStateStorageWithEvictionBuilder" id="706468865%2FClasslikes%2F-554770553" data-filterable-set=":krate-core:dokkaHtmlPartial/main"></a>
           <div class="table-row" data-filterable-current=":krate-core:dokkaHtmlPartial/main" data-filterable-set=":krate-core:dokkaHtmlPartial/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="-simple-memory-state-storage-with-eviction-builder/index.html"><span>Simple</span><wbr><span>Memory</span><wbr><span>State</span><wbr><span>Storage</span><wbr><span>With</span><wbr><span>Eviction</span><wbr><span><span>Builder</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-933304813%2FClasslikes%2F-554770553"></span>
+                  <div><a href="-memory-state-storage-with-eviction-builder/index.html"><span>Memory</span><wbr><span>State</span><wbr><span>Storage</span><wbr><span>With</span><wbr><span>Eviction</span><wbr><span><span>Builder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="706468865%2FClasslikes%2F-554770553"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":krate-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-simple-memory-state-storage-with-eviction-builder/index.html">SimpleMemoryStateStorageWithEvictionBuilder</a></div><div class="brief "><p class="paragraph">A builder for <a href="-simple-memory-state-storage-with-eviction/index.html">SimpleMemoryStateStorageWithEviction</a> instances.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":krate-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-memory-state-storage-with-eviction-builder/index.html">MemoryStateStorageWithEvictionBuilder</a></div><div class="brief "><p class="paragraph">A builder for <a href="-memory-state-storage/index.html">MemoryStateStorage</a> instances with eviction.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1100644785%2FClasslikes%2F-554770553" anchor-label="SimpleBucketStateMap" id="-1100644785%2FClasslikes%2F-554770553" data-filterable-set=":krate-core:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":krate-core:dokkaHtmlPartial/main" data-filterable-set=":krate-core:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-simple-bucket-state-map/index.html"><span>Simple</span><wbr><span>Bucket</span><wbr><span>State</span><wbr><span><span>Map</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1100644785%2FClasslikes%2F-554770553"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":krate-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-simple-bucket-state-map/index.html">SimpleBucketStateMap</a> : <a href="-bucket-state-map/index.html">BucketStateMap</a></div><div class="brief "><p class="paragraph">Simple in-memory implementation of <a href="-bucket-state-map/index.html">BucketStateMap</a>. This implementation is thread-safe and uses <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentHashMap.html">ConcurrentHashMap</a> to store the state.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1066075446%2FClasslikes%2F-554770553" anchor-label="SimpleBucketStateMapWithEviction" id="-1066075446%2FClasslikes%2F-554770553" data-filterable-set=":krate-core:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":krate-core:dokkaHtmlPartial/main" data-filterable-set=":krate-core:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-simple-bucket-state-map-with-eviction/index.html"><span>Simple</span><wbr><span>Bucket</span><wbr><span>State</span><wbr><span>Map</span><wbr><span>With</span><wbr><span><span>Eviction</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1066075446%2FClasslikes%2F-554770553"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":krate-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-simple-bucket-state-map-with-eviction/index.html">SimpleBucketStateMapWithEviction</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">clock<span class="token operator">: </span><a href="https://docs.oracle.com/javase/8/docs/api/java/time/Clock.html">Clock</a><span class="token punctuation">, </span></span><span class="parameter ">stateMap<span class="token operator">: </span><a href="-simple-bucket-state-map/index.html">SimpleBucketStateMap</a><span class="token operator"> = </span>SimpleBucketStateMap()<span class="token punctuation">, </span></span><span class="parameter ">ttlAfterLastAccess<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/-duration/index.html">Duration</a><span class="token operator"> = </span>2.hours<span class="token punctuation">, </span></span><span class="parameter ">expirationCheckInterval<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/-duration/index.html">Duration</a><span class="token operator"> = </span>10.minutes<span class="token punctuation">, </span></span><span class="parameter ">coroutineScope<span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines/CoroutineScope///PointingToDeclaration/">CoroutineScope</span><span class="token operator"> = </span>CoroutineScope(Dispatchers.Default)</span></span><span class="token punctuation">)</span> : <a href="-bucket-state-map/index.html">BucketStateMap</a></div><div class="brief "><p class="paragraph">A simple in-memory state map implementation that expires keys after a given time-to-live.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -123,32 +153,32 @@
       </div>
       <div data-togglable="FUNCTION">
         <h2 class="">Functions</h2>
-        <div class="table"><a data-name="-2012875885%2FFunctions%2F-554770553" anchor-label="simpleMemoryStateStorage" id="-2012875885%2FFunctions%2F-554770553" data-filterable-set=":krate-core:dokkaHtmlPartial/main"></a>
+        <div class="table"><a data-name="-59207853%2FFunctions%2F-554770553" anchor-label="memoryStateStorage" id="-59207853%2FFunctions%2F-554770553" data-filterable-set=":krate-core:dokkaHtmlPartial/main"></a>
           <div class="table-row" data-filterable-current=":krate-core:dokkaHtmlPartial/main" data-filterable-set=":krate-core:dokkaHtmlPartial/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="simple-memory-state-storage.html"><span>simple</span><wbr><span>Memory</span><wbr><span>State</span><wbr><span><span>Storage</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2012875885%2FFunctions%2F-554770553"></span>
+                  <div><a href="memory-state-storage.html"><span>memory</span><wbr><span>State</span><wbr><span><span>Storage</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-59207853%2FFunctions%2F-554770553"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":krate-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="simple-memory-state-storage.html"><span class="token function">simpleMemoryStateStorage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">init<span class="token operator">: </span><span class="token keyword"></span><a href="-simple-memory-state-storage-builder/index.html">SimpleMemoryStateStorageBuilder</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../com.neutrine.krate.storage/-state-storage/index.html">StateStorage</a></div><div class="brief "><p class="paragraph">Creates a <a href="-simple-memory-state-storage/index.html">SimpleMemoryStateStorage</a> instance.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":krate-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="memory-state-storage.html"><span class="token function">memoryStateStorage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">init<span class="token operator">: </span><span class="token keyword"></span><a href="-memory-state-storage-builder/index.html">MemoryStateStorageBuilder</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../com.neutrine.krate.storage/-state-storage/index.html">StateStorage</a></div><div class="brief "><p class="paragraph">Creates a <a href="-memory-state-storage/index.html">MemoryStateStorage</a> instance.</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
-<a data-name="711822323%2FFunctions%2F-554770553" anchor-label="simpleMemoryStateStorageWithEviction" id="711822323%2FFunctions%2F-554770553" data-filterable-set=":krate-core:dokkaHtmlPartial/main"></a>
+<a data-name="-490540429%2FFunctions%2F-554770553" anchor-label="memoryStateStorageWithEviction" id="-490540429%2FFunctions%2F-554770553" data-filterable-set=":krate-core:dokkaHtmlPartial/main"></a>
           <div class="table-row" data-filterable-current=":krate-core:dokkaHtmlPartial/main" data-filterable-set=":krate-core:dokkaHtmlPartial/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="simple-memory-state-storage-with-eviction.html"><span>simple</span><wbr><span>Memory</span><wbr><span>State</span><wbr><span>Storage</span><wbr><span>With</span><wbr><span><span>Eviction</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="711822323%2FFunctions%2F-554770553"></span>
+                  <div><a href="memory-state-storage-with-eviction.html"><span>memory</span><wbr><span>State</span><wbr><span>Storage</span><wbr><span>With</span><wbr><span><span>Eviction</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-490540429%2FFunctions%2F-554770553"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":krate-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="simple-memory-state-storage-with-eviction.html"><span class="token function">simpleMemoryStateStorageWithEviction</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">init<span class="token operator">: </span><span class="token keyword"></span><a href="-simple-memory-state-storage-with-eviction-builder/index.html">SimpleMemoryStateStorageWithEvictionBuilder</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-simple-memory-state-storage-with-eviction/index.html">SimpleMemoryStateStorageWithEviction</a></div><div class="brief "><p class="paragraph">Creates a <a href="-simple-memory-state-storage-with-eviction/index.html">SimpleMemoryStateStorageWithEviction</a> instance.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":krate-core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="memory-state-storage-with-eviction.html"><span class="token function">memoryStateStorageWithEviction</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">init<span class="token operator">: </span><span class="token keyword"></span><a href="-memory-state-storage-with-eviction-builder/index.html">MemoryStateStorageWithEvictionBuilder</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../com.neutrine.krate.storage/-state-storage/index.html">StateStorage</a></div><div class="brief "><p class="paragraph">Creates a <a href="-memory-state-storage/index.html">MemoryStateStorage</a> instance with eviction.</p></div></div></div>
                 </div>
               </div>
             </div>

@@ -386,6 +386,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#rate-of-10-per-second-using-caffeine-to-evict-keys-unused-in-the-last-2-hours" class="md-nav__link">
+    Rate of 10 per second, using caffeine to evict keys unused in the last 2 hours
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#rate-of-5-per-second-using-redis-as-state-storage" class="md-nav__link">
     Rate of 5 per second using Redis as state storage
   </a>
@@ -524,6 +531,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#rate-of-10-per-second-using-caffeine-to-evict-keys-unused-in-the-last-2-hours" class="md-nav__link">
+    Rate of 10 per second, using caffeine to evict keys unused in the last 2 hours
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#rate-of-5-per-second-using-redis-as-state-storage" class="md-nav__link">
     Rate of 5 per second using Redis as state storage
   </a>
@@ -614,9 +628,22 @@ rateLimiter.awaitUntilTake()
 
 // Create a rate limiter with a rate of 5 per second. Unused keys will be evicted after 2 hours.
 val rateLimiter = rateLimiter(maxRate = 5) {
-    stateStorage = simpleMemoryStateStorageWithEviction {
+    stateStorage = memoryStateStorageWithEviction {
         ttlAfterLastAccess = 2.hours
     }    
+}
+
+// Use the rate limiter.
+val taken: Boolean = rateLimiter.tryTake(&quot;myKey&quot;)
+</code></pre>
+<h3 id="rate-of-10-per-second-using-caffeine-to-evict-keys-unused-in-the-last-2-hours">Rate of 10 per second, using caffeine to evict keys unused in the last 2 hours</h3>
+<pre><code class="language-kotlin">import com.neutrine.krate.rateLimiter
+
+// Create a rate limiter with a rate of 5 per second. Unused keys will be evicted after 2 hours.
+val rateLimiter = rateLimiter(maxRate = 10) {
+    stateStorage = memoryCaffeineStateStorage {
+        expireAfterAccess = 2.hours
+    }
 }
 
 // Use the rate limiter.

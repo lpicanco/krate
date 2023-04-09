@@ -6,5 +6,7 @@ com.neutrine.krate
 com.neutrine.krate.algorithms
 com.neutrine.krate.storage
 com.neutrine.krate.storage.memory
+module:krate-storage-memory-caffeine
+com.neutrine.krate.storage.memory.caffeine
 module:krate-storage-redis
 com.neutrine.krate.storage.redis
