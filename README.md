@@ -75,7 +75,7 @@ import com.neutrine.krate.rateLimiter
 
 // Create a rate limiter with a rate of 5 per second. Unused keys will be evicted after 2 hours.
 val rateLimiter = rateLimiter(maxRate = 5) {
-    stateStorage = simpleMemoryStateStorageWithEviction {
+    stateStorage = memoryStateStorageWithEviction {
         ttlAfterLastAccess = 2.hours
     }    
 }

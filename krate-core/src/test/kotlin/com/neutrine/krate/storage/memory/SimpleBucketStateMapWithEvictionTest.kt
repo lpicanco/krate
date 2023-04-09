@@ -39,22 +39,23 @@ import org.junit.jupiter.api.extension.ExtendWith
 import java.time.Clock
 import java.time.Instant
 import java.time.ZoneOffset
+import java.util.concurrent.atomic.AtomicReference
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
 
 @ExtendWith(MockKExtension::class)
-class SimpleMemoryStateStorageWithEvictionTest {
+class SimpleBucketStateMapWithEvictionTest {
     private val testScope = TestScope()
     private val clock = Clock.fixed(Instant.parse("2022-08-14T00:44:00Z"), ZoneOffset.UTC)
     private val ttlAfterLastAccess: Duration = 1.hours
     private val expirationCheckInterval: Duration = 10.minutes
 
     @SpyK
-    private var baseStateStorage: SimpleMemoryStateStorage = SimpleMemoryStateStorage()
+    private var baseStateMap: SimpleBucketStateMap = SimpleBucketStateMap()
 
     @InjectMockKs
-    private lateinit var stateStorage: SimpleMemoryStateStorageWithEviction
+    private lateinit var stateMap: SimpleBucketStateMapWithEviction
 
     @BeforeEach
     fun setup() {
@@ -63,29 +64,29 @@ class SimpleMemoryStateStorageWithEvictionTest {
 
     @Test
     fun `should expire keys not accessed for more than ttlAfterLastAccess`() = runTest {
-        val state42 = BucketState(10, clock.instant().minusMillis(ttlAfterLastAccess.inWholeMilliseconds - 1))
-        val state410 = BucketState(10, clock.instant().minusMillis(ttlAfterLastAccess.inWholeMilliseconds))
+        val state42 = AtomicReference(BucketState(10, clock.instant().minusMillis(ttlAfterLastAccess.inWholeMilliseconds - 1)))
+        val state410 = AtomicReference(BucketState(10, clock.instant().minusMillis(ttlAfterLastAccess.inWholeMilliseconds)))
 
-        stateStorage.compareAndSet("42") { state42 }
-        coVerify { baseStateStorage.compareAndSet("42", any()) }
-        stateStorage.compareAndSet("410") { state410 }
+        stateMap.putIfAbsent("42", state42)
+        coVerify { baseStateMap.putIfAbsent("42", state42) }
+        stateMap.putIfAbsent("410", state410)
 
         testScope.advanceTimeBy(expirationCheckInterval.inWholeMilliseconds + 1)
 
-        assertEquals(state42, stateStorage.getBucketState("42"))
-        verify { baseStateStorage.getBucketState("42") }
-        assertNull(stateStorage.getBucketState("410"))
+        assertEquals(state42, stateMap.getBucketStateReference("42"))
+        verify { baseStateMap.getBucketStateReference("42") }
+        assertNull(stateMap.getBucketStateReference("410"))
     }
 
     @Test
     fun `should not expire keys before expirationCheckInterval`() = runTest {
-        val state410 = BucketState(10, clock.instant().minusMillis(ttlAfterLastAccess.inWholeMilliseconds))
-        stateStorage.compareAndSet("410") { state410 }
+        val state410 = AtomicReference(BucketState(10, clock.instant().minusMillis(ttlAfterLastAccess.inWholeMilliseconds)))
+        stateMap.putIfAbsent("410", state410)
 
         testScope.advanceTimeBy(expirationCheckInterval.inWholeMilliseconds)
-        assertEquals(state410, stateStorage.getBucketState("410"))
+        assertEquals(state410, stateMap.getBucketStateReference("410"))
 
         testScope.advanceTimeBy(1)
-        assertNull(stateStorage.getBucketState("410"))
+        assertNull(stateMap.getBucketStateReference("410"))
     }
 }
