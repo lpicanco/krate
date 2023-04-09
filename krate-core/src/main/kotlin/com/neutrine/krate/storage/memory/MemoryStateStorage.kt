@@ -33,7 +33,7 @@ import java.util.concurrent.atomic.AtomicReference
  */
 class MemoryStateStorage(
     private val bucketStateMap: BucketStateMap = SimpleBucketStateMap()
-): StateStorage {
+) : StateStorage {
     override fun getBucketState(key: String): BucketState? {
         return bucketStateMap.getBucketStateReference(key)?.get()
     }

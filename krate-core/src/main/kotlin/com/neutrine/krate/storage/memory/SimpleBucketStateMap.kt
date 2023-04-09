@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicReference
  * Simple in-memory implementation of [BucketStateMap].
  * This implementation is thread-safe and uses [ConcurrentHashMap] to store the state.
  */
-class SimpleBucketStateMap: BucketStateMap {
+class SimpleBucketStateMap : BucketStateMap {
 
     internal val state: ConcurrentHashMap<String, AtomicReference<BucketState>> = ConcurrentHashMap()
 
