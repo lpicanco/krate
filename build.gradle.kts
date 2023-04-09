@@ -13,7 +13,7 @@ plugins {
 
 allprojects {
     group = "com.neutrine.krate"
-    version = "1.0.1"
+    version = "1.0.2"
 
     repositories {
         mavenCentral()
