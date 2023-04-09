@@ -23,7 +23,7 @@ package com.neutrine.krate
 
 import com.neutrine.krate.algorithms.TokenBucketLimiter
 import com.neutrine.krate.storage.StateStorage
-import com.neutrine.krate.storage.memory.simpleMemoryStateStorage
+import com.neutrine.krate.storage.memory.memoryStateStorage
 import java.time.Clock
 import java.time.Duration
 import java.time.temporal.ChronoUnit
@@ -54,7 +54,7 @@ class RateLimiterBuilder(private val maxRate: Long) {
     /**
      * The state storage to use to store the bucket state.
      */
-    var stateStorage: StateStorage = simpleMemoryStateStorage()
+    var stateStorage: StateStorage = memoryStateStorage()
 
     fun build(): RateLimiter {
         val refillTokenIntervalInMillis = (1.0 / (maxRate.toDouble() / maxRateTimeUnit.duration.seconds)) * 1000
@@ -81,7 +81,7 @@ class RateLimiterBuilder(private val maxRate: Long) {
  * To create a rate limiter that allows 5 requests per second, expiring keys unused for 2 hours:
  * ```kotlin
  * val rateLimiter = rateLimiter(maxRate = 5) {
- *  stateStorage = simpleMemoryStateStorageWithEviction {
+ *  stateStorage = memoryStateStorageWithEviction {
  *      ttlAfterLastAccess = 2.hours
  *  }
  * }

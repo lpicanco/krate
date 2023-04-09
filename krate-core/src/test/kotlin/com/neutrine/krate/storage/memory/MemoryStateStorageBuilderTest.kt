@@ -37,42 +37,36 @@ import java.time.ZoneOffset
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
 
-class SimpleMemoryStateStorageBuilderTest {
+class MemoryStateStorageBuilderTest {
 
     @Test
-    fun `should return an instance of SimpleMemoryStateStorage`() {
-        val simpleMemoryStateStorage = simpleMemoryStateStorage()
-        assertTrue(simpleMemoryStateStorage is SimpleMemoryStateStorage)
+    fun `should return an instance of MemoryStateStorage`() {
+        val memoryStateStorage = memoryStateStorage()
+        assertTrue(memoryStateStorage is MemoryStateStorage)
     }
 
     @Test
-    fun `should return an instance of SimpleMemoryStateStorageWithEviction with default values`() {
-        val simpleMemoryStateStorage = simpleMemoryStateStorageWithEviction()
-        assertTrue(simpleMemoryStateStorage is SimpleMemoryStateStorageWithEviction)
-    }
-
-    @Test
-    fun `should return an instance of SimpleMemoryStateStorageWithEviction with a custom clock, stateStorage, ttl of 2h and checkInterval of 30m`() = runTest {
+    fun `should return an instance of MemoryStateStorage with a custom clock, stateStorage, ttl of 2h and checkInterval of 30m`() = runTest {
         val ttl = 2.hours
         val checkInterval = 30.minutes
         val fixedClock = Clock.fixed(Instant.parse("2023-04-07T11:00:00Z"), ZoneOffset.UTC)
-        val customStateStorage = spyk<SimpleMemoryStateStorage>()
+        val customStateMap = spyk<SimpleBucketStateMap>()
         val testScope = TestScope()
 
-        val stateStorage = simpleMemoryStateStorageWithEviction {
+        val stateStorage = memoryStateStorageWithEviction {
             clock = fixedClock
             ttlAfterLastAccess = ttl
             expirationCheckInterval = checkInterval
-            stateStorage = customStateStorage
+            bucketStateMap = customStateMap
             coroutineScope = testScope
         }
 
-        assertTrue(stateStorage is SimpleMemoryStateStorageWithEviction)
+        assertTrue(stateStorage is MemoryStateStorage)
 
         val state42 = BucketState(10, fixedClock.instant().minusMillis(ttl.inWholeMilliseconds - 1))
         val state410 = BucketState(10, fixedClock.instant().minusMillis(ttl.inWholeMilliseconds))
         stateStorage.compareAndSet("42") { state42 }
-        coVerify { customStateStorage.compareAndSet("42", any()) }
+        coVerify { customStateMap.putIfAbsent("42", any()) }
         stateStorage.compareAndSet("410") { state410 }
 
         testScope.advanceTimeBy(checkInterval.inWholeMilliseconds + 1)

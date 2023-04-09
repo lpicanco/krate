@@ -75,9 +75,24 @@ import com.neutrine.krate.rateLimiter
 
 // Create a rate limiter with a rate of 5 per second. Unused keys will be evicted after 2 hours.
 val rateLimiter = rateLimiter(maxRate = 5) {
-    stateStorage = simpleMemoryStateStorageWithEviction {
+    stateStorage = memoryStateStorageWithEviction {
         ttlAfterLastAccess = 2.hours
     }    
+}
+
+// Use the rate limiter.
+val taken: Boolean = rateLimiter.tryTake("myKey")
+```
+
+### Rate of 10 per second, using caffeine to evict keys unused in the last 2 hours
+```kotlin
+import com.neutrine.krate.rateLimiter
+
+// Create a rate limiter with a rate of 5 per second. Unused keys will be evicted after 2 hours.
+val rateLimiter = rateLimiter(maxRate = 10) {
+    stateStorage = memoryCaffeineStateStorage {
+        expireAfterAccess = 2.hours
+    }
 }
 
 // Use the rate limiter.

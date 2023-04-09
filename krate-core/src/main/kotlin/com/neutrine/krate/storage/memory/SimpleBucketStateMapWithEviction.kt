@@ -21,7 +21,6 @@
 
 package com.neutrine.krate.storage.memory
 
-import com.neutrine.krate.storage.StateStorage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -32,20 +31,20 @@ import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
 
 /**
- * A simple in-memory state storage implementation that expires keys after a given time-to-live.
+ * A simple in-memory state map implementation that expires keys after a given time-to-live.
  * @param clock the clock to use to get the current time
- * @param stateStorage the state storage to use to store the state
+ * @param stateMap the state map to use to store the state
  * @param ttlAfterLastAccess the time-to-live after the last access
  * @param expirationCheckInterval the interval at which to check for expired keys
  * @param coroutineScope the [CoroutineScope] to use to run the expiration check
  */
-class SimpleMemoryStateStorageWithEviction(
+class SimpleBucketStateMapWithEviction(
     private val clock: Clock,
-    private val stateStorage: SimpleMemoryStateStorage = SimpleMemoryStateStorage(),
+    private val stateMap: SimpleBucketStateMap = SimpleBucketStateMap(),
     private val ttlAfterLastAccess: Duration = 2.hours,
     expirationCheckInterval: Duration = 10.minutes,
     coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default)
-) : StateStorage by stateStorage {
+) : BucketStateMap by stateMap {
 
     init {
         coroutineScope.launch {
@@ -59,7 +58,7 @@ class SimpleMemoryStateStorageWithEviction(
     private fun expireKeys() {
         val cutoffTime = clock.instant().minusMillis(ttlAfterLastAccess.inWholeMilliseconds)
 
-        stateStorage.state.values.removeIf {
+        stateMap.state.values.removeIf {
             it.get().lastUpdated <= cutoffTime
         }
     }

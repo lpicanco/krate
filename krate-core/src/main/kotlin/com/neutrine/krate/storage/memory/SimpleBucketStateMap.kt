@@ -22,37 +22,22 @@
 package com.neutrine.krate.storage.memory
 
 import com.neutrine.krate.algorithms.BucketState
-import com.neutrine.krate.storage.StateStorage
-import com.neutrine.krate.storage.StateStorage.Companion.DEFAULT_RETRY_DELAY
-import kotlinx.coroutines.delay
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicReference
 
 /**
- * Simple in-memory implementation of [StateStorage].
+ * Simple in-memory implementation of [BucketStateMap].
  * This implementation is thread-safe and uses [ConcurrentHashMap] to store the state.
  */
-class SimpleMemoryStateStorage : StateStorage {
+class SimpleBucketStateMap : BucketStateMap {
 
     internal val state: ConcurrentHashMap<String, AtomicReference<BucketState>> = ConcurrentHashMap()
 
-    override fun getBucketState(key: String): BucketState? {
-        return state[key]?.get()
+    override fun getBucketStateReference(key: String): AtomicReference<BucketState>? {
+        return state[key]
     }
 
-    override suspend fun compareAndSet(key: String, compareAndSetFunction: (current: BucketState?) -> BucketState) {
-        val currentState = state[key]
-        val currentStateValue = currentState?.get()
-        val newStateValue = compareAndSetFunction(currentStateValue)
-
-        val putResult = state.putIfAbsent(key, AtomicReference(newStateValue))
-
-        // Check if an item was added or updated after currentState read
-        if ((currentState == null && putResult != null) ||
-            currentState?.compareAndSet(currentStateValue, newStateValue) == false
-        ) {
-            delay(DEFAULT_RETRY_DELAY)
-            return compareAndSet(key, compareAndSetFunction)
-        }
+    override fun putIfAbsent(key: String, value: AtomicReference<BucketState>): AtomicReference<BucketState>? {
+        return state.putIfAbsent(key, value)
     }
 }

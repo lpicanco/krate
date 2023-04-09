@@ -23,7 +23,7 @@ package com.neutrine.krate.algorithms
 
 import com.neutrine.krate.RateLimiter
 import com.neutrine.krate.storage.StateStorage
-import com.neutrine.krate.storage.memory.SimpleMemoryStateStorage
+import com.neutrine.krate.storage.memory.MemoryStateStorage
 import kotlinx.coroutines.delay
 import java.lang.Long.max
 import java.lang.Long.min
@@ -44,7 +44,7 @@ class TokenBucketLimiter(
     val capacity: Long,
     val refillTokenInterval: Duration,
     private val clock: Clock,
-    private val stateStorage: StateStorage = SimpleMemoryStateStorage()
+    private val stateStorage: StateStorage = MemoryStateStorage()
 ) : RateLimiter {
     override suspend fun tryTake(): Boolean {
         return tryTakeFromState(null)

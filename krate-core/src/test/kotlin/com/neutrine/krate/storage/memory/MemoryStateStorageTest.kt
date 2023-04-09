@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022, the original author or authors.
+ * Copyright (c) 2022-2023, the original author or authors.
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,10 +19,9 @@
  * under the License.
  */
 
-package com.neutrine.krate.storage
+package com.neutrine.krate.storage.memory
 
 import com.neutrine.krate.algorithms.BucketState
-import com.neutrine.krate.storage.memory.SimpleMemoryStateStorage
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -33,14 +32,14 @@ import java.time.Clock
 import java.time.Instant
 import java.time.ZoneOffset.UTC
 
-internal class SimpleMemoryStateStorageTest {
+internal class MemoryStateStorageTest {
 
     private val clock = Clock.fixed(Instant.parse("2022-08-14T00:44:00Z"), UTC)
-    private lateinit var storage: SimpleMemoryStateStorage
+    private lateinit var storage: MemoryStateStorage
 
     @BeforeEach
     fun setup() {
-        storage = SimpleMemoryStateStorage()
+        storage = MemoryStateStorage(SimpleBucketStateMap())
     }
 
     @Test
