@@ -8,7 +8,7 @@ plugins {
     id("maven-publish")
     id("signing")
     id("io.github.gradle-nexus.publish-plugin") version "1.0.0"
-    id("org.jetbrains.dokka") version "1.8.10"
+    id("org.jetbrains.dokka") version "1.9.10"
 }
 
 allprojects {
@@ -50,11 +50,11 @@ subprojects {
     }
 
     dependencies {
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
         testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
         testImplementation("io.mockk:mockk:1.13.4")
-        testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
-        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
+        testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
+        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.1")
     }
 
     tasks.withType<Test> {
@@ -74,7 +74,7 @@ subprojects {
     }
 
     tasks.withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = JavaVersion.VERSION_11.toString()
+        kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
         kotlinOptions.freeCompilerArgs += "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
     }
 
