@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.8.20"
+    kotlin("jvm") version "1.9.21"
     id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
     id("org.sonarqube") version "4.4.1.3373"
     jacoco
@@ -52,7 +52,7 @@ subprojects {
     dependencies {
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
         testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
-        testImplementation("io.mockk:mockk:1.13.4")
+        testImplementation("io.mockk:mockk:1.13.8")
         testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
         testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.1")
     }
