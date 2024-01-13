@@ -56,7 +56,7 @@ internal class RateLimiterBuilderTest {
     }
 
     @Test
-    fun `should return an instance of TokenBucketLimiter a rate of 30 per second`() {
+    fun `should return an instance of TokenBucketLimiter with a rate of 30 per second`() {
         val rateLimiter = rateLimiter(maxRate = 30) {
             maxBurst = 50
             maxRateTimeUnit = ChronoUnit.SECONDS
@@ -70,7 +70,7 @@ internal class RateLimiterBuilderTest {
     }
 
     @Test
-    fun `should return an instance of TokenBucketLimiter a rate of 5 per hour`() {
+    fun `should return an instance of TokenBucketLimiter with a rate of 5 per hour`() {
         val rateLimiter = rateLimiter(maxRate = 5) {
             maxBurst = 5
             maxRateTimeUnit = ChronoUnit.HOURS
