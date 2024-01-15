@@ -1,7 +1,7 @@
 # Krate
 Krate is a rate limiter library for Kotlin.
 
-[![Kotlin](https://img.shields.io/badge/kotlin-1.8.0-blue.svg?logo=kotlin)](http://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/kotlin-1.9.21-blue.svg?logo=kotlin)](http://kotlinlang.org)
 ![GitHub](https://img.shields.io/github/license/lpicanco/krate)
 ![Build Status](https://img.shields.io/github/actions/workflow/status/lpicanco/krate/jdk11.yml?branch=master)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=lpicanco_krate&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=lpicanco_krate)
