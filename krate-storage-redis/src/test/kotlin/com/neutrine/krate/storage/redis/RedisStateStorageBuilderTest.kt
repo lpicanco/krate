@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class RedisStateStorageBuilderTest {
-
     @Test
     fun `should return an instance of RedisStateStorageBuilder with default values`() {
         val stateStorage: RedisStateStorage = redisStateStorage {}
@@ -15,10 +14,11 @@ internal class RedisStateStorageBuilderTest {
 
     @Test
     fun `should return an instance of RedisStateStorageBuilder with custom values`() {
-        val stateStorage: RedisStateStorage = redisStateStorage {
-            host = "127.0.0.1"
-            port = 4242
-        }
+        val stateStorage: RedisStateStorage =
+            redisStateStorage {
+                host = "127.0.0.1"
+                port = 4242
+            }
 
         assertEquals("127.0.0.1", stateStorage.host)
         assertEquals(4242, stateStorage.port)

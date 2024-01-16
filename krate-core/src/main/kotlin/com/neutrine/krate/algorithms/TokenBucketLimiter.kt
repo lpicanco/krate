@@ -44,7 +44,7 @@ class TokenBucketLimiter(
     val capacity: Long,
     val refillTokenInterval: Duration,
     private val clock: Clock,
-    private val stateStorage: StateStorage = MemoryStateStorage()
+    private val stateStorage: StateStorage = MemoryStateStorage(),
 ) : RateLimiter {
     override suspend fun tryTake(): Boolean {
         return tryTakeFromState(null)
@@ -80,7 +80,7 @@ class TokenBucketLimiter(
 
                 current.copy(
                     remainingTokens = max(0, totalTokens - 1),
-                    lastUpdated = lastUpdated
+                    lastUpdated = lastUpdated,
                 )
             }
         }
@@ -100,5 +100,5 @@ class TokenBucketLimiter(
  */
 data class BucketState(
     val remainingTokens: Long,
-    val lastUpdated: Instant
+    val lastUpdated: Instant,
 )

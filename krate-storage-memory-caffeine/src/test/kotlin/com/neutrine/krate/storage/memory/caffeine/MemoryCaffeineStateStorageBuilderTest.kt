@@ -31,17 +31,18 @@ import java.time.Instant
 
 class MemoryCaffeineStateStorageBuilderTest {
     @Test
-    fun `should return an instance of MemoryStateStorage with CaffeineBucketStateMap`() = runTest {
-        val stateStorage = memoryCaffeineStateStorage()
-        assertTrue(stateStorage is MemoryStateStorage)
+    fun `should return an instance of MemoryStateStorage with CaffeineBucketStateMap`() =
+        runTest {
+            val stateStorage = memoryCaffeineStateStorage()
+            assertTrue(stateStorage is MemoryStateStorage)
 
-        val state = BucketState(10, Instant.now())
-        stateStorage.compareAndSet("A") { state }
-        stateStorage.compareAndSet("B") { state }
-        stateStorage.compareAndSet("C") { state }
+            val state = BucketState(10, Instant.now())
+            stateStorage.compareAndSet("A") { state }
+            stateStorage.compareAndSet("B") { state }
+            stateStorage.compareAndSet("C") { state }
 
-        assertEquals(state, stateStorage.getBucketState("A"))
-        assertEquals(state, stateStorage.getBucketState("B"))
-        assertEquals(state, stateStorage.getBucketState("C"))
-    }
+            assertEquals(state, stateStorage.getBucketState("A"))
+            assertEquals(state, stateStorage.getBucketState("B"))
+            assertEquals(state, stateStorage.getBucketState("C"))
+        }
 }

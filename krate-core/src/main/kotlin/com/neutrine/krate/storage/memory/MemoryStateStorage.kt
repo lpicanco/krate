@@ -32,13 +32,16 @@ import java.util.concurrent.atomic.AtomicReference
  * @param bucketStateMap The [BucketStateMap] to use to store the state.
  */
 class MemoryStateStorage(
-    private val bucketStateMap: BucketStateMap = SimpleBucketStateMap()
+    private val bucketStateMap: BucketStateMap = SimpleBucketStateMap(),
 ) : StateStorage {
     override fun getBucketState(key: String): BucketState? {
         return bucketStateMap.getBucketStateReference(key)?.get()
     }
 
-    override suspend fun compareAndSet(key: String, compareAndSetFunction: (current: BucketState?) -> BucketState) {
+    override suspend fun compareAndSet(
+        key: String,
+        compareAndSetFunction: (current: BucketState?) -> BucketState,
+    ) {
         val currentState = bucketStateMap.getBucketStateReference(key)
         val currentStateValue = currentState?.get()
         val newStateValue = compareAndSetFunction(currentStateValue)
