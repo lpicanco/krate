@@ -28,7 +28,6 @@ import java.util.concurrent.atomic.AtomicReference
  * Interface the provides a map implementation to store the state of the rate limiter.
  */
 interface BucketStateMap {
-
     /**
      * Returns the [AtomicReference] of the [BucketState] for the given [key].
      * If the [key] is not present in the map, it returns `null`.
@@ -40,5 +39,8 @@ interface BucketStateMap {
      * If the [key] is already present, it returns the [AtomicReference] of the [BucketState] for the given [key].
      * If the [key] is not present in the map, it returns `null`.
      */
-    fun putIfAbsent(key: String, value: AtomicReference<BucketState>): AtomicReference<BucketState>?
+    fun putIfAbsent(
+        key: String,
+        value: AtomicReference<BucketState>,
+    ): AtomicReference<BucketState>?
 }

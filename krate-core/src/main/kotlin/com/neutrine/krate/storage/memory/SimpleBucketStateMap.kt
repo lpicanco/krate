@@ -30,14 +30,16 @@ import java.util.concurrent.atomic.AtomicReference
  * This implementation is thread-safe and uses [ConcurrentHashMap] to store the state.
  */
 class SimpleBucketStateMap : BucketStateMap {
-
     internal val state: ConcurrentHashMap<String, AtomicReference<BucketState>> = ConcurrentHashMap()
 
     override fun getBucketStateReference(key: String): AtomicReference<BucketState>? {
         return state[key]
     }
 
-    override fun putIfAbsent(key: String, value: AtomicReference<BucketState>): AtomicReference<BucketState>? {
+    override fun putIfAbsent(
+        key: String,
+        value: AtomicReference<BucketState>,
+    ): AtomicReference<BucketState>? {
         return state.putIfAbsent(key, value)
     }
 }

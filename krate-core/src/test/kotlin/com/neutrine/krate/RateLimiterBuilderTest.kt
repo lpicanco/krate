@@ -12,13 +12,13 @@ import java.time.Duration
 import java.time.temporal.ChronoUnit
 
 internal class RateLimiterBuilderTest {
-
     @Test
     fun `should return an instance of TokenBucketLimiter with a rate of 60 per minute`() {
-        val rateLimiter = rateLimiter(maxRate = 60) {
-            maxBurst = 70
-            maxRateTimeUnit = ChronoUnit.MINUTES
-        }
+        val rateLimiter =
+            rateLimiter(maxRate = 60) {
+                maxBurst = 70
+                maxRateTimeUnit = ChronoUnit.MINUTES
+            }
 
         assertTrue(rateLimiter is TokenBucketLimiter)
         val tokenBucketLimiter = rateLimiter as TokenBucketLimiter
@@ -29,10 +29,11 @@ internal class RateLimiterBuilderTest {
 
     @Test
     fun `should return an instance of TokenBucketLimiter with a rate of 5 per minute`() {
-        val rateLimiter = rateLimiter(maxRate = 5) {
-            maxBurst = 70
-            maxRateTimeUnit = ChronoUnit.MINUTES
-        }
+        val rateLimiter =
+            rateLimiter(maxRate = 5) {
+                maxBurst = 70
+                maxRateTimeUnit = ChronoUnit.MINUTES
+            }
 
         assertTrue(rateLimiter is TokenBucketLimiter)
         val tokenBucketLimiter = rateLimiter as TokenBucketLimiter
@@ -43,10 +44,11 @@ internal class RateLimiterBuilderTest {
 
     @Test
     fun `should return an instance of TokenBucketLimiter with a rate of 5 per second`() {
-        val rateLimiter = rateLimiter(maxRate = 5) {
-            maxBurst = 10
-            maxRateTimeUnit = ChronoUnit.SECONDS
-        }
+        val rateLimiter =
+            rateLimiter(maxRate = 5) {
+                maxBurst = 10
+                maxRateTimeUnit = ChronoUnit.SECONDS
+            }
 
         assertTrue(rateLimiter is TokenBucketLimiter)
         val tokenBucketLimiter = rateLimiter as TokenBucketLimiter
@@ -57,10 +59,11 @@ internal class RateLimiterBuilderTest {
 
     @Test
     fun `should return an instance of TokenBucketLimiter with a rate of 30 per second`() {
-        val rateLimiter = rateLimiter(maxRate = 30) {
-            maxBurst = 50
-            maxRateTimeUnit = ChronoUnit.SECONDS
-        }
+        val rateLimiter =
+            rateLimiter(maxRate = 30) {
+                maxBurst = 50
+                maxRateTimeUnit = ChronoUnit.SECONDS
+            }
 
         assertTrue(rateLimiter is TokenBucketLimiter)
         val tokenBucketLimiter = rateLimiter as TokenBucketLimiter
@@ -71,10 +74,11 @@ internal class RateLimiterBuilderTest {
 
     @Test
     fun `should return an instance of TokenBucketLimiter with a rate of 5 per hour`() {
-        val rateLimiter = rateLimiter(maxRate = 5) {
-            maxBurst = 5
-            maxRateTimeUnit = ChronoUnit.HOURS
-        }
+        val rateLimiter =
+            rateLimiter(maxRate = 5) {
+                maxBurst = 5
+                maxRateTimeUnit = ChronoUnit.HOURS
+            }
 
         assertTrue(rateLimiter is TokenBucketLimiter)
         val tokenBucketLimiter = rateLimiter as TokenBucketLimiter
@@ -84,16 +88,18 @@ internal class RateLimiterBuilderTest {
     }
 
     @Test
-    fun `should return an instance of TokenBucketLimiter with custom state storage`() = runTest {
-        val customStateStorage = mockk<StateStorage>(relaxed = true)
-        val rateLimiter = rateLimiter(maxRate = 5) {
-            stateStorage = customStateStorage
+    fun `should return an instance of TokenBucketLimiter with custom state storage`() =
+        runTest {
+            val customStateStorage = mockk<StateStorage>(relaxed = true)
+            val rateLimiter =
+                rateLimiter(maxRate = 5) {
+                    stateStorage = customStateStorage
+                }
+
+            assertTrue(rateLimiter is TokenBucketLimiter)
+            val tokenBucketLimiter = rateLimiter as TokenBucketLimiter
+
+            tokenBucketLimiter.tryTake("42")
+            coVerify { customStateStorage.compareAndSet("42", any()) }
         }
-
-        assertTrue(rateLimiter is TokenBucketLimiter)
-        val tokenBucketLimiter = rateLimiter as TokenBucketLimiter
-
-        tokenBucketLimiter.tryTake("42")
-        coVerify { customStateStorage.compareAndSet("42", any()) }
-    }
 }

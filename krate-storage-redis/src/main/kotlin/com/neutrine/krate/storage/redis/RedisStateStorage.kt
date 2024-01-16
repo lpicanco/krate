@@ -35,7 +35,7 @@ import java.time.Instant
  */
 class RedisStateStorage(
     val host: String,
-    val port: Int
+    val port: Int,
 ) : StateStorage {
     private val redisPool: JedisPool = JedisPool(host, port)
 
@@ -45,7 +45,10 @@ class RedisStateStorage(
         }
     }
 
-    override suspend fun compareAndSet(key: String, compareAndSetFunction: (current: BucketState?) -> BucketState): Unit =
+    override suspend fun compareAndSet(
+        key: String,
+        compareAndSetFunction: (current: BucketState?) -> BucketState,
+    ): Unit =
         redisPool.resource.use { jedis ->
             val computedKey = computeKey(key)
             jedis.watch(computedKey)
@@ -63,16 +66,18 @@ class RedisStateStorage(
 
     private fun computeKey(key: String) = "krate:instance:$key"
 
-    private fun BucketState.toMap(): Map<String, String> = mapOf(
-        KEY_REMAINING_TOKENS to remainingTokens.toString(),
-        KEY_LAST_UPDATED to lastUpdated.toEpochMilli().toString()
-    )
+    private fun BucketState.toMap(): Map<String, String> =
+        mapOf(
+            KEY_REMAINING_TOKENS to remainingTokens.toString(),
+            KEY_LAST_UPDATED to lastUpdated.toEpochMilli().toString(),
+        )
 
     private fun Map<String, String>.toBucketState(): BucketState? {
         val remainingTokens: Long? = this["remainingTokens"]?.toLongOrNull()
-        val lastUpdated: Instant? = this["lastUpdated"]?.toLongOrNull()?.let {
-            Instant.ofEpochMilli(it)
-        }
+        val lastUpdated: Instant? =
+            this["lastUpdated"]?.toLongOrNull()?.let {
+                Instant.ofEpochMilli(it)
+            }
 
         if (remainingTokens == null || lastUpdated == null) {
             return null

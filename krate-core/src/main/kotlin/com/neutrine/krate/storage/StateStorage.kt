@@ -30,7 +30,6 @@ import kotlin.time.toKotlinDuration
  * A state storage is a component that allows to store the state of a rate limiter.
  */
 interface StateStorage {
-
     /**
      * Get the state of the bucket for the given [key].
      * @param key the key to use to get the state
@@ -43,10 +42,12 @@ interface StateStorage {
      * @param key the key to use to set the state
      * @param compareAndSetFunction a Compare-And-Set function that takes the current state of the bucket and returns the new state
      */
-    suspend fun compareAndSet(key: String, compareAndSetFunction: (current: BucketState?) -> BucketState)
+    suspend fun compareAndSet(
+        key: String,
+        compareAndSetFunction: (current: BucketState?) -> BucketState,
+    )
 
     companion object {
-
         // Default expiration check interval
         val DEFAULT_RETRY_DELAY = Duration.ofMillis(100L).toKotlinDuration()
     }

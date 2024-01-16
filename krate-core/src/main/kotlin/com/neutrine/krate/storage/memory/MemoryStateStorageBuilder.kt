@@ -40,7 +40,6 @@ class MemoryStateStorageBuilder {
  * A builder for [MemoryStateStorage] instances with eviction.
  */
 class MemoryStateStorageWithEvictionBuilder {
-
     /**
      * The time-to-live after the last access.
      */
@@ -66,15 +65,16 @@ class MemoryStateStorageWithEvictionBuilder {
      */
     var coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default)
 
-    fun build() = MemoryStateStorage(
-        SimpleBucketStateMapWithEviction(
-            clock,
-            bucketStateMap,
-            ttlAfterLastAccess,
-            expirationCheckInterval,
-            coroutineScope
+    fun build() =
+        MemoryStateStorage(
+            SimpleBucketStateMapWithEviction(
+                clock,
+                bucketStateMap,
+                ttlAfterLastAccess,
+                expirationCheckInterval,
+                coroutineScope,
+            ),
         )
-    )
 }
 
 /**
