@@ -35,7 +35,6 @@ import kotlin.math.roundToLong
  * @param maxRate the maximum rate at which tokens can be consumed
  */
 class RateLimiterBuilder(private val maxRate: Long) {
-
     /**
      * The maximum number of tokens that can be stored in the bucket. Defaults to [maxRate].
      */
@@ -63,7 +62,7 @@ class RateLimiterBuilder(private val maxRate: Long) {
             capacity = maxBurst,
             refillTokenInterval = Duration.ofMillis(refillTokenIntervalInMillis.roundToLong()),
             stateStorage = stateStorage,
-            clock = clock
+            clock = clock,
         )
     }
 }
@@ -86,6 +85,9 @@ class RateLimiterBuilder(private val maxRate: Long) {
  *  }
  * }
  */
-fun rateLimiter(maxRate: Long, init: RateLimiterBuilder.() -> Unit = {}): RateLimiter {
+fun rateLimiter(
+    maxRate: Long,
+    init: RateLimiterBuilder.() -> Unit = {},
+): RateLimiter {
     return RateLimiterBuilder(maxRate).apply(init).build()
 }

@@ -43,9 +43,8 @@ class SimpleBucketStateMapWithEviction(
     private val stateMap: SimpleBucketStateMap = SimpleBucketStateMap(),
     private val ttlAfterLastAccess: Duration = 2.hours,
     expirationCheckInterval: Duration = 10.minutes,
-    coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default)
+    coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default),
 ) : BucketStateMap by stateMap {
-
     init {
         coroutineScope.launch {
             while (true) {

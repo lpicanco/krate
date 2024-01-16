@@ -63,30 +63,32 @@ class SimpleBucketStateMapWithEvictionTest {
     }
 
     @Test
-    fun `should expire keys not accessed for more than ttlAfterLastAccess`() = runTest {
-        val state42 = AtomicReference(BucketState(10, clock.instant().minusMillis(ttlAfterLastAccess.inWholeMilliseconds - 1)))
-        val state410 = AtomicReference(BucketState(10, clock.instant().minusMillis(ttlAfterLastAccess.inWholeMilliseconds)))
+    fun `should expire keys not accessed for more than ttlAfterLastAccess`() =
+        runTest {
+            val state42 = AtomicReference(BucketState(10, clock.instant().minusMillis(ttlAfterLastAccess.inWholeMilliseconds - 1)))
+            val state410 = AtomicReference(BucketState(10, clock.instant().minusMillis(ttlAfterLastAccess.inWholeMilliseconds)))
 
-        stateMap.putIfAbsent("42", state42)
-        coVerify { baseStateMap.putIfAbsent("42", state42) }
-        stateMap.putIfAbsent("410", state410)
+            stateMap.putIfAbsent("42", state42)
+            coVerify { baseStateMap.putIfAbsent("42", state42) }
+            stateMap.putIfAbsent("410", state410)
 
-        testScope.advanceTimeBy(expirationCheckInterval.inWholeMilliseconds + 1)
+            testScope.advanceTimeBy(expirationCheckInterval.inWholeMilliseconds + 1)
 
-        assertEquals(state42, stateMap.getBucketStateReference("42"))
-        verify { baseStateMap.getBucketStateReference("42") }
-        assertNull(stateMap.getBucketStateReference("410"))
-    }
+            assertEquals(state42, stateMap.getBucketStateReference("42"))
+            verify { baseStateMap.getBucketStateReference("42") }
+            assertNull(stateMap.getBucketStateReference("410"))
+        }
 
     @Test
-    fun `should not expire keys before expirationCheckInterval`() = runTest {
-        val state410 = AtomicReference(BucketState(10, clock.instant().minusMillis(ttlAfterLastAccess.inWholeMilliseconds)))
-        stateMap.putIfAbsent("410", state410)
+    fun `should not expire keys before expirationCheckInterval`() =
+        runTest {
+            val state410 = AtomicReference(BucketState(10, clock.instant().minusMillis(ttlAfterLastAccess.inWholeMilliseconds)))
+            stateMap.putIfAbsent("410", state410)
 
-        testScope.advanceTimeBy(expirationCheckInterval.inWholeMilliseconds)
-        assertEquals(state410, stateMap.getBucketStateReference("410"))
+            testScope.advanceTimeBy(expirationCheckInterval.inWholeMilliseconds)
+            assertEquals(state410, stateMap.getBucketStateReference("410"))
 
-        testScope.advanceTimeBy(1)
-        assertNull(stateMap.getBucketStateReference("410"))
-    }
+            testScope.advanceTimeBy(1)
+            assertNull(stateMap.getBucketStateReference("410"))
+        }
 }

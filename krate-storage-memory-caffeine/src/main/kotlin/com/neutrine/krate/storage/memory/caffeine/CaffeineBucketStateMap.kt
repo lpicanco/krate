@@ -34,18 +34,22 @@ import kotlin.time.toJavaDuration
  */
 class CaffeineBucketStateMap(
     maximumSize: Long,
-    expireAfterAccess: Duration
+    expireAfterAccess: Duration,
 ) : BucketStateMap {
-    private val cache: Cache<String, AtomicReference<BucketState>> = Caffeine.newBuilder()
-        .maximumSize(maximumSize)
-        .expireAfterAccess(expireAfterAccess.toJavaDuration())
-        .build()
+    private val cache: Cache<String, AtomicReference<BucketState>> =
+        Caffeine.newBuilder()
+            .maximumSize(maximumSize)
+            .expireAfterAccess(expireAfterAccess.toJavaDuration())
+            .build()
 
     override fun getBucketStateReference(key: String): AtomicReference<BucketState>? {
         return cache.getIfPresent(key)
     }
 
-    override fun putIfAbsent(key: String, value: AtomicReference<BucketState>): AtomicReference<BucketState>? {
+    override fun putIfAbsent(
+        key: String,
+        value: AtomicReference<BucketState>,
+    ): AtomicReference<BucketState>? {
         return cache.asMap().putIfAbsent(key, value)
     }
 }
