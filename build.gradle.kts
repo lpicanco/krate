@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.9.21"
+    kotlin("jvm") version "1.9.22"
     id("org.jlleitschuh.gradle.ktlint") version "12.0.3"
     id("org.sonarqube") version "4.4.1.3373"
     jacoco
