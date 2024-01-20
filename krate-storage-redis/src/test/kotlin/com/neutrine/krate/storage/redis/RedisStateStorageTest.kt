@@ -43,8 +43,9 @@ internal class RedisStateStorageTest {
     private lateinit var storage: RedisStateStorage
 
     @Container
-    val redis: GenericContainer<*> = GenericContainer(DockerImageName.parse("redis:5.0.3-alpine"))
-        .withExposedPorts(6379)
+    val redis: GenericContainer<*> =
+        GenericContainer(DockerImageName.parse("redis:5.0.3-alpine"))
+            .withExposedPorts(6379)
 
     @BeforeEach
     fun setup() {
@@ -52,73 +53,78 @@ internal class RedisStateStorageTest {
     }
 
     @Test
-    fun `should compare and set a new state when not exists`() = runTest {
-        val newState = BucketState(10, clock.instant())
-        storage.compareAndSet("42") { current ->
-            assertNull(current)
-            newState
-        }
+    fun `should compare and set a new state when not exists`() =
+        runTest {
+            val newState = BucketState(10, clock.instant())
+            storage.compareAndSet("42") { current ->
+                assertNull(current)
+                newState
+            }
 
-        assertEquals(newState, storage.getBucketState("42"))
-    }
+            assertEquals(newState, storage.getBucketState("42"))
+        }
 
     @Test
-    fun `should compare and set a new state when not exists concurrently`() = runTest {
-        val key = "42"
-        val newState = BucketState(10, clock.instant())
-        val concurrentState = BucketState(8, clock.instant().plusSeconds(10))
+    fun `should compare and set a new state when not exists concurrently`() =
+        runTest {
+            val key = "42"
+            val newState = BucketState(10, clock.instant())
+            val concurrentState = BucketState(8, clock.instant().plusSeconds(10))
 
-        launch {
-            storage.compareAndSet(key) { concurrentState }
-        }
-        storage.compareAndSet(key) { current ->
-            advanceTimeBy(100)
-            current?.copy(current.remainingTokens - 1) ?: newState
-        }
+            launch {
+                storage.compareAndSet(key) { concurrentState }
+            }
+            storage.compareAndSet(key) { current ->
+                advanceTimeBy(100)
+                current?.copy(current.remainingTokens - 1) ?: newState
+            }
 
-        assertEquals(7, storage.getBucketState(key)?.remainingTokens)
-    }
+            assertEquals(7, storage.getBucketState(key)?.remainingTokens)
+        }
 
     @Test
-    fun `should compare and set a new state when exists`() = runTest {
-        val currentState = BucketState(10, clock.instant())
-        val newState = BucketState(9, clock.instant().plusSeconds(10))
-        storage.compareAndSet("42") { currentState }
+    fun `should compare and set a new state when exists`() =
+        runTest {
+            val currentState = BucketState(10, clock.instant())
+            val newState = BucketState(9, clock.instant().plusSeconds(10))
+            storage.compareAndSet("42") { currentState }
 
-        storage.compareAndSet("42") { current ->
-            assertEquals(currentState, current)
-            newState
+            storage.compareAndSet("42") { current ->
+                assertEquals(currentState, current)
+                newState
+            }
+
+            assertEquals(newState, storage.getBucketState("42"))
         }
-
-        assertEquals(newState, storage.getBucketState("42"))
-    }
 
     @Test
-    fun `should compare and set a new state concurrently`() = runTest {
-        val key = "42"
-        val currentState = BucketState(10, clock.instant())
-        val concurrentState = BucketState(8, clock.instant().plusSeconds(10))
-        storage.compareAndSet(key) { currentState }
+    fun `should compare and set a new state concurrently`() =
+        runTest {
+            val key = "42"
+            val currentState = BucketState(10, clock.instant())
+            val concurrentState = BucketState(8, clock.instant().plusSeconds(10))
+            storage.compareAndSet(key) { currentState }
 
-        launch {
-            storage.compareAndSet(key) { concurrentState }
+            launch {
+                storage.compareAndSet(key) { concurrentState }
+            }
+
+            storage.compareAndSet(key) { current ->
+                advanceTimeBy(100)
+                current!!.copy(current.remainingTokens - 1)
+            }
+
+            assertEquals(7, storage.getBucketState(key)?.remainingTokens)
         }
-
-        storage.compareAndSet(key) { current ->
-            advanceTimeBy(100)
-            current!!.copy(current.remainingTokens - 1)
-        }
-
-        assertEquals(7, storage.getBucketState(key)?.remainingTokens)
-    }
 
     @Test
-    fun `should return the current state`() = runTest {
-        val currentState = BucketState(10, clock.instant())
-        storage.compareAndSet("42") { currentState }
+    fun `should return the current state`() =
+        runTest {
+            val currentState = BucketState(10, clock.instant())
+            storage.compareAndSet("42") { currentState }
 
-        assertEquals(currentState, storage.getBucketState("42"))
-    }
+            assertEquals(currentState, storage.getBucketState("42"))
+        }
 
     @Test
     fun `should return null when the state not exists`() {
