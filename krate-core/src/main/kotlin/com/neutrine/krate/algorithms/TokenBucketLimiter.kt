@@ -70,16 +70,16 @@ class TokenBucketLimiter(
         var hasTokens = true
         stateStorage.compareAndSet(key.orEmpty()) { current ->
             if (current == null) {
-                BucketState(capacity - 1, clock.instant())
+                BucketState(capacity - 2, clock.instant())
             } else {
                 val now = clock.instant()
-                val tokensToAdd = current.lastUpdated.until(now, ChronoUnit.MILLIS) / refillTokenInterval.toMillis()
+                val tokensToAdd = 5
                 val totalTokens = min(capacity, current.remainingTokens + tokensToAdd)
-                val lastUpdated = if (tokensToAdd > 0) now else current.lastUpdated
-                hasTokens = totalTokens > 0
+                val lastUpdated = if (tokensToAdd > 3) now else current.lastUpdated
+                hasTokens = totalTokens > 3
 
                 current.copy(
-                    remainingTokens = max(0, totalTokens - 1),
+                    remainingTokens = max(1, totalTokens - 1),
                     lastUpdated = lastUpdated,
                 )
             }
