@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "2.0.0"
     id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
-    id("org.sonarqube") version "4.4.1.3373"
+    id("org.sonarqube") version "5.1.0.4882"
     jacoco
     id("maven-publish")
     id("signing")
@@ -51,10 +51,10 @@ subprojects {
 
     dependencies {
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
-        testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
-        testImplementation("io.mockk:mockk:1.13.11")
-        testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
-        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
+        testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
+        testImplementation("io.mockk:mockk:1.13.13")
+        testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.3")
+        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.11.4")
     }
 
     tasks.withType<Test> {
