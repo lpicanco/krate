@@ -2,13 +2,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.9.22"
-    id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
-    id("org.sonarqube") version "4.4.1.3373"
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
+    id("org.sonarqube") version "5.1.0.4882"
     jacoco
     id("maven-publish")
     id("signing")
     id("io.github.gradle-nexus.publish-plugin") version "1.3.0"
-    id("org.jetbrains.dokka") version "1.9.10"
+    id("org.jetbrains.dokka") version "1.9.20"
 }
 
 allprojects {
@@ -50,11 +50,11 @@ subprojects {
     }
 
     dependencies {
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-        testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
-        testImplementation("io.mockk:mockk:1.13.9")
-        testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
-        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+        testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
+        testImplementation("io.mockk:mockk:1.13.13")
+        testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.3")
+        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.11.4")
     }
 
     tasks.withType<Test> {
